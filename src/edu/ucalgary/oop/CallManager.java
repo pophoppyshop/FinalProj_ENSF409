@@ -1,4 +1,4 @@
-package ucalgary.edu.oop;
+package edu.ucalgary.oop;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ public class CallManager{
 	private List <CrisisCall> callList;
 	
 	public CallManager() {
-		callList = new ArrayList<>
+		callList = new ArrayList<>();
 	}
 	
 	public void addCall(CrisisCall call) {
