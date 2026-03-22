@@ -1,14 +1,16 @@
-package ucalgary.edu.oop
+package edu.ucalgary.oop;
+
+import java.time.*;
 
 public class CrisisCall{
 	private String status;
 	private int urgencyLevel;
-	private String callTime;
+	private LocalTime callTime;
 	private double callDuration;
 	private String notes;
 	private Caller caller;
 	
-	public CrisisCall(String status, int urgencyLevel, String callTime, double callDuration, String notes, Caller caller) {
+	public CrisisCall(String status, int urgencyLevel, LocalTime callTime, double callDuration, String notes, Caller caller) {
 		this.status = status;
 		this.urgencyLevel = urgencyLevel;
 		this.callTime = callTime;
@@ -25,7 +27,7 @@ public class CrisisCall{
 		return urgencyLevel;
 	}
 	
-	public String getCallTime() {
+	public LocalTime getCallTime() {
 		return callTime;
 	}
 	
@@ -34,34 +36,34 @@ public class CrisisCall{
 	}
 	
 	public String getNotes() {
-		return callDuration;
+		return notes;
 	}
 	
 	public Caller getCaller() {
 		return caller;
 	}
 	
-	public setStatus(String status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 	
-	public setUrgencyLevel(int urgencyLevel) {
+	public void setUrgencyLevel(int urgencyLevel) {
 		this.urgencyLevel = urgencyLevel;
 	}
 	
-	public setCallTime(int callTime) {
+	public void setCallTime(LocalTime callTime) {
 		this.callTime = callTime;
 	}
 	
-	public setCallDuration(double callDuration) {
+	public void setCallDuration(double callDuration) {
 		this.callDuration = callDuration;
 	}
 	
-	public setNotes(String notes) {
+	public void setNotes(String notes) {
 		this.notes = notes;
 	}
 	
-	public setCaller(Caller caller) {
+	public void setCaller(Caller caller) {
 		this.caller = caller;
 	}
 	
