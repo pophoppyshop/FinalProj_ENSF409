@@ -10,7 +10,7 @@ public class ScheduleManager{
         //TO DO
     }
 
-    escalate(){
+    Supervisor[] escalate(){
         //TO DO
     }
 
