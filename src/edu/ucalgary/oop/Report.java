@@ -57,6 +57,10 @@ public class Report {
         }
         return result;
     }
+    
+    public LocalDate getDate() {
+    	return date;
+    }
 
     public int getTotalCalls() {
         return callList.size();

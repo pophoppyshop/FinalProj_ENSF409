@@ -6,14 +6,16 @@ public class CrisisCall{
 	private String status;
 	private int urgencyLevel;
 	private LocalTime callTime;
+	private LocalDate callDate;
 	private double callDuration;
 	private String notes;
 	private Caller caller;
 	
-	public CrisisCall(String status, int urgencyLevel, LocalTime callTime, double callDuration, String notes, Caller caller) {
+	public CrisisCall(String status, int urgencyLevel, LocalTime callTime, LocalDate callDate, double callDuration, String notes, Caller caller) {
 		this.status = status;
 		this.urgencyLevel = urgencyLevel;
 		this.callTime = callTime;
+		this.callDate = callDate;
 		this.callDuration = callDuration;
 		this.notes = notes;
 		this.caller = caller;
@@ -29,6 +31,10 @@ public class CrisisCall{
 	
 	public LocalTime getCallTime() {
 		return callTime;
+	}
+	
+	public LocalDate getCallDate() {
+		return callDate;
 	}
 	
 	public double getCallDuration() {
@@ -53,6 +59,10 @@ public class CrisisCall{
 	
 	public void setCallTime(LocalTime callTime) {
 		this.callTime = callTime;
+	}
+	
+	public void setCallDate(LocalDate callDate) {
+		this.callDate = callDate;
 	}
 	
 	public void setCallDuration(double callDuration) {
