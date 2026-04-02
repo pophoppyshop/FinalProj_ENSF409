@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import edu.ucalgary.oop.CrisisCall;
-import edu.ucalgary.oop.Report;
 
 public class ReportManager {
 
