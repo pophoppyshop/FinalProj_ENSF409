@@ -27,8 +27,26 @@ public class DatabaseManager {
 		}
 	}
 	
-	public static void initializeConnection(String username, String password) throws SQLException{
-		dbConnect = DriverManager.getConnection("jdbc:postgresql://localhost/pets", username, password);
+	public static boolean initializeConnection(String username, String password) {
+		try {
+			dbConnect = DriverManager.getConnection("jdbc:postgresql://localhost/pets", username, password);
+		} catch (SQLException e) {
+			System.out.println("Invalid user/password!");
+			e.printStackTrace();
+			
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public static void disconnect() {
+		try {
+			dbConnect.close();
+		} catch (SQLException e) {
+			System.out.println("Unable to disconnect from database!");
+			e.printStackTrace();
+		}
 	}
 	
 	public static Connection getConnection() {

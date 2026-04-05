@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class MainProgram {
 	private static Scanner scanner;
 	
@@ -21,16 +22,9 @@ public class MainProgram {
 			String password = scanner.nextLine();
 			
 			// Try connecting to the database
-			try {
-				DatabaseManager.initializeConnection(username, password);
-			} catch (SQLException e) {
-				e.printStackTrace();
-				
-				System.out.println("Invalid username or password!");
-				
-				continue;
+			if (DatabaseManager.initializeConnection(username, password)) {
+				break; // stop loop if connection successful
 			}
-			break;
 		}
 		
 		// Main loop
@@ -77,6 +71,7 @@ public class MainProgram {
 		System.out.println(DatabaseManager.getConnection());
 		
 		scanner.close();
+		DatabaseManager.disconnect();
 	}
 	
 	public static void manageCall() {
@@ -151,7 +146,7 @@ public class MainProgram {
 				
 				case "2":
 					// Get caller info
-                    System.out.println("Enter caller phone number:");
+                    System.out.println("\nEnter caller phone number:");
                     String phone = scanner.nextLine();
                     
                     System.out.println("Is the caller anonymous? (yes or no):");
@@ -159,7 +154,6 @@ public class MainProgram {
 					boolean isAnonymous = input.equals("true") || input.equals("yes");
 
                     Caller caller = new Caller (
-                        0, // TODO temporary
                         phone,
                         isAnonymous,
                         java.time.LocalDate.now().toString(),
@@ -173,6 +167,7 @@ public class MainProgram {
                     System.out.println("Enter notes:");
                     String notes = scanner.nextLine();
 
+                    // Create new call object
                     CrisisCall newCall = new CrisisCall(
                         "Pending",
                         urgency,
@@ -190,7 +185,7 @@ public class MainProgram {
 					
 				case "3":{
 					// TODO Modify call details (triggers rescheduling if urgency updates)
-					System.out.println("Enter call index:");
+					System.out.println("\nEnter call index:");
                     int index = Integer.parseInt(scanner.nextLine());
                     List<CrisisCall> calls = CallManager.getCallList();
 
@@ -212,7 +207,7 @@ public class MainProgram {
 					System.out.println("Enter new notes:");
 					String newNotes = scanner.nextLine();
 
-					// Updating 
+					// Update urgency and notes 
 					call.setUrgencyLevel(newUrgency);
 					call.setNotes(newNotes);
 
@@ -222,7 +217,8 @@ public class MainProgram {
                     break;}
 					
 				case "4":{
-                    System.out.println("Enter call index:");
+					// Find the call object
+                    System.out.println("\nEnter call index:");
                     int index = Integer.parseInt(scanner.nextLine());
                     
                     List<CrisisCall >calls = CallManager.getCallList();
@@ -236,6 +232,7 @@ public class MainProgram {
                         break;
                     }
                     
+                    // Get updated status
                     System.out.println("Enter new status (Pending/Active/Resolved/Escalated)");
                     String status = scanner.nextLine();
                     
@@ -293,10 +290,58 @@ public class MainProgram {
 	}
 	
 	public static void scheduling() {
+		scheduleLoop:
+		while (true) {
+			System.out.println("\n----- Schedule Manager -----");
+			System.out.println("Please select an option or '0' to go back:\n" +
+					"(1) Assign calls based on urgency\n" +
+					"(2) Assign smallest available counselor workload");
 			
+			String userInput = scanner.nextLine();
+			
+			switch (userInput) {
+				case "1":
+					// TODO execute the schedule by urgency strategy
+					break;
+					
+				case "2":
+					// TODO execute the schedule by workload and specialty strategy
+					break;
+				case "0":
+					break scheduleLoop;
+			}
+		}
 	}
 	
 	public static void manageReport() {
+		// TODO automatically generate a day report when its 11:59pm
+
+		reportLoop:
+		while (true) {
+			System.out.println("\n----- Report Manager -----");
+			System.out.println("A day report will be automatically generated at 11:59 pm. "
+					+ "You can create a current day report or view past reports here.");
+			System.out.println("Please select an option or '0' to go back:\n" +
+					"(1) Create a current day report\n" + 
+					"(2) View past reports");
+			
+			String userInput = scanner.nextLine();
+			
+			switch(userInput) {
+				case "1":
+					// TODO create current day report and display it
+					break;
+					
+				case "2":{
+					// TODO display past reports
+					System.out.println("\nPlease enter a date in the valid format (YYYY-MM-DD):");
+					userInput = scanner.nextLine();
+					
+					break;}
+				case "0":
+					break reportLoop;
+			}
+		}
 		
 	}
 }
