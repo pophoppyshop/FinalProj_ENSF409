@@ -42,8 +42,4 @@ public class VolunteerSpecialtyTest {
         //TO DO
     }
 
-    @Test
-
-
-
 }
