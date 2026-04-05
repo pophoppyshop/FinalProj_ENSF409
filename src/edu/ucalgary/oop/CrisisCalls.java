@@ -7,11 +7,13 @@ public class CrisisCall{
 	private int urgencyLevel;
 	private LocalTime callTime;
 	private LocalDate callDate;
-	private double callDuration;
+	private double callDuration; // in minutes
 	private String notes;
 	private Caller caller;
 	
-	public CrisisCall(String status, int urgencyLevel, LocalTime callTime, LocalDate callDate, double callDuration, String notes, Caller caller) {
+	public CrisisCall(String status, int urgencyLevel, LocalTime callTime, LocalDate callDate, 
+			double callDuration, String notes, Caller caller) {
+
 		this.status = status;
 		this.urgencyLevel = urgencyLevel;
 		this.callTime = callTime;
@@ -77,4 +79,14 @@ public class CrisisCall{
 		this.caller = caller;
 	}
 	
+	public String toString() {
+		return 
+				"\tStatus: " + status + 
+				"\n\tUrgency: " + urgencyLevel +
+				"\n\tCall time: " + callTime + 
+				"\n\tCall date:" + callDate + 
+				"\n\tDuration (mins): " + callDuration +
+				"\n\tNotes: " + notes +
+				"\nCaller information: \n" + caller.toString();
+	}
 }

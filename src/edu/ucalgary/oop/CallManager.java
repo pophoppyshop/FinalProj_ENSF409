@@ -4,30 +4,38 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class CallManager{
-	private List <CrisisCall> callList;
+	private static List <CrisisCall> callList =  new ArrayList<>();
 	
-	public CallManager() {
-		callList = new ArrayList<>();
+	private CallManager() {
 	}
 	
-	public void addCall(CrisisCall call) {
+	public static void addCall(CrisisCall call) {
 		callList.add(call);
 	}
 	
-	public void modifyCallDetails(CrisisCall call) {
+	public static void modifyCallDetails(CrisisCall call) {
 		// still need to implement
 	}
 	
-	public void updateStatus(CrisisCall call, String status) {
+	public static void updateStatus(CrisisCall call, String status) {
 		call.setStatus(status);
 	}
 	
-	public CrisisCall[] getCallList() {
-		CrisisCall [] callListArr = new CrisisCall[callList.size()];
-		
-		for (int i = 0; i < callList.size(); i++) {
-			callListArr[i] = callList.get(i); 
+	public static List<CrisisCall> getCallList() {
+		return callList;
+	}
+	
+	public static List<CrisisCall> filter(Strategy<List <CrisisCall>, List <CrisisCall>> strategy) {
+		return strategy.execute(callList);
+	}
+	
+	public static void printCallList(List<CrisisCall> calls) {
+		// Display the call details with indices
+		for (CrisisCall call : calls) {
+			System.out.println(
+					"Index: " + calls.indexOf(call) + "\n" 
+					+ call.toString());
+			System.out.println("--------------------------"); // separation line
 		}
-		return callListArr;
 	}
 }

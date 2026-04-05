@@ -4,21 +4,10 @@ import java.util.*;
 import java.sql.*;
 
 public class DatabaseManager {
-	private static List<Observer> observers;
-	private static DatabaseManager instance;
+	private static List<Observer> observers = new ArrayList<Observer>();
 	private static Connection dbConnect;
 	
-	private DatabaseManager() {
-		observers = new ArrayList<Observer>();
-	}  
-	
-	public static DatabaseManager getInstance() {
-		if (instance == null) {
-			instance = new DatabaseManager();
-		}
-		
-		return instance;
-	}
+	private DatabaseManager() {}
 	
 	public static void addObserver(Observer observer) {
 		// Add observer to observer list

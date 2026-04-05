@@ -27,4 +27,14 @@ public class Caller {
 	public void setLastContactDate(String lastContactDate) {
 		this.lastContactDate = lastContactDate;
 	}
+	
+	public String toString () {
+		String anonymous = (isAnonymous)? "Yes" : "No";
+		
+		return 
+				"\tPhone number: " + phoneNumber +
+				"\n\tIs anonymous?: " + anonymous +
+				"\n\tLast contact date" + lastContactDate +
+				"\n\tNotes: " + notes;
+	}
 }
