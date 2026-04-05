@@ -29,27 +29,35 @@ public class CrisisCallsTest{
 
     @Test
     public void testGetStatus(){
-        //TO DO
+        assertEquals("Call should be given status", expectedStatus, 
+            crisisCall.getStatus());
     }
 
     @Test
     public void testGetUrgencyLevel(){
-        //TO DO
+        assertEquals("Call should be given urgency level", expectedUrgencyLevel, 
+            crisisCall.getUrgencyLevel());
     }
 
     @Test
     public void testGetCallDuration(){
-        //TO DO
+        assertEquals("Call should be given duration", expectedDuration, 
+            crisisCall.getCallDuration());
     }
 
     @Test
     public void testgetCaller(){
-        //TO DO
+        assertEquals("Call should have caller information", expectedCaller, 
+            crisisCall.getCaller());
     }
 
     @Test
     public void testToString(){
-        //TO DO
+        String expectedString = "\tStatus: Pending\n\tUrgency: General support\n\tCall time: "
+            +LocalTime.now()+"\n\tCall date: "+LocalDate.now()+"\n\tDuration (mins): 0\n\tNotes: null"
+            +"\nCaller information: \n" + expectedCaller.toString();
+        String callString = crisiCall.toString();
+        assertEquals("toString should return call information", expectedString, crisisCallString);
     }
 
 }
