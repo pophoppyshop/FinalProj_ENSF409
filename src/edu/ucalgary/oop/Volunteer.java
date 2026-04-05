@@ -43,7 +43,7 @@ public class Volunteer {
         return currentCalls;
     }
 
-    public String getLastAvailableCHange(){
+    public String getLastAvailableChange(){
         return lastAvailableChange;
     }
 
