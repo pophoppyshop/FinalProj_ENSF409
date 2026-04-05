@@ -169,6 +169,7 @@ public class MainProgram {
 
                     // Create new call object
                     CrisisCall newCall = new CrisisCall(
+                    	CallManager.generateUniqueID(),
                         "Pending",
                         urgency,
                         java.time.LocalTime.now(),
@@ -185,21 +186,21 @@ public class MainProgram {
 					
 				case "3":{
 					// TODO Modify call details (triggers rescheduling if urgency updates)
-					System.out.println("\nEnter call index:");
-                    int index = Integer.parseInt(scanner.nextLine());
+					System.out.println("\nEnter call ID:");
+                    int ID = Integer.parseInt(scanner.nextLine());
                     List<CrisisCall> calls = CallManager.getCallList();
 
                     if (calls.size() == 0){
                         System.out.println("No calls available.");
                         break;
                     }
-                    if (index < 0 || index >= calls.size()){
+                    if (ID < 0 || ID > calls.size()){
                         System.out.println("Invalid index.");
                         break;
                     }
                     
                     // Get call object
-					CrisisCall call = calls.get(index);
+					CrisisCall call = CallManager.getCall(ID);
 
 					System.out.println("Enter new urgency level (1-5):");
 					int newUrgency = Integer.parseInt(scanner.nextLine());
@@ -218,8 +219,8 @@ public class MainProgram {
 					
 				case "4":{
 					// Find the call object
-                    System.out.println("\nEnter call index:");
-                    int index = Integer.parseInt(scanner.nextLine());
+                    System.out.println("\nEnter call ID:");
+                    int ID = Integer.parseInt(scanner.nextLine());
                     
                     List<CrisisCall >calls = CallManager.getCallList();
 
@@ -227,7 +228,7 @@ public class MainProgram {
                         System.out.println("No calls available.");
                         break;
                     }
-                    if (index < 0 || index >= calls.size()){
+                    if (ID < 0 || ID > calls.size()){
                         System.out.println("Invalid index.");
                         break;
                     }
@@ -237,7 +238,7 @@ public class MainProgram {
                     String status = scanner.nextLine();
                     
                     // Updating
-					CallManager.updateStatus(calls.get(index), status);
+					CallManager.updateStatus(CallManager.getCall(ID), status);
 					System.out.println("Status updated successfully.");
 					break;}
 					

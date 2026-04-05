@@ -3,6 +3,7 @@ package edu.ucalgary.oop;
 import java.time.*;
 
 public class CrisisCall{
+	private int callID;
 	private String status;
 	private int urgencyLevel;
 	private LocalTime callTime;
@@ -11,9 +12,9 @@ public class CrisisCall{
 	private String notes;
 	private Caller caller;
 	
-	public CrisisCall(String status, int urgencyLevel, LocalTime callTime, LocalDate callDate, 
+	public CrisisCall(int callID, String status, int urgencyLevel, LocalTime callTime, LocalDate callDate, 
 			double callDuration, String notes, Caller caller) {
-
+		this.callID = callID;
 		this.status = status;
 		this.urgencyLevel = urgencyLevel;
 		this.callTime = callTime;
@@ -21,6 +22,10 @@ public class CrisisCall{
 		this.callDuration = callDuration;
 		this.notes = notes;
 		this.caller = caller;
+	}
+	
+	public int getCallID() {
+		return callID;
 	}
 	
 	public String getStatus() {
@@ -49,6 +54,10 @@ public class CrisisCall{
 	
 	public Caller getCaller() {
 		return caller;
+	}
+	
+	public void setCallID(int callID) {
+		this.callID = callID;
 	}
 	
 	public void setStatus(String status) {
@@ -81,7 +90,8 @@ public class CrisisCall{
 	
 	public String toString() {
 		return 
-				"\tStatus: " + status + 
+				"\nID: " + callID + 
+				"\n\tStatus: " + status + 
 				"\n\tUrgency: " + urgencyLevel +
 				"\n\tCall time: " + callTime + 
 				"\n\tCall date:" + callDate + 

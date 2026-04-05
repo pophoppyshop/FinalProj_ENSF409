@@ -32,10 +32,36 @@ public class CallManager{
 	public static void printCallList(List<CrisisCall> calls) {
 		// Display the call details with indices
 		for (CrisisCall call : calls) {
-			System.out.println(
-					"Index: " + calls.indexOf(call) + "\n" 
-					+ call.toString());
+			System.out.println(call.toString());
 			System.out.println("--------------------------"); // separation line
 		}
+	}
+	
+	public static int generateUniqueID() {
+		int id = 1;
+		
+		while (true) {
+			// Check if index already exists in callList
+			for (CrisisCall call : callList) {
+				if (call.getCallID() == id) {
+					// Continue to next index
+					id++;
+					
+					continue;
+				}
+			}
+			
+			return id;
+		}
+	}
+	
+	public static CrisisCall getCall(int index) throws IllegalArgumentException{
+		for (CrisisCall call: callList) {
+			if (call.getCallID() == index) {
+				return call;
+			}
+		}
+		
+		throw new IllegalArgumentException("Call ID does not exist.");
 	}
 }

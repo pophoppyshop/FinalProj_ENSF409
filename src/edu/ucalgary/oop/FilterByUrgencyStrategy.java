@@ -15,7 +15,7 @@ public class FilterByUrgencyStrategy implements Strategy<List<CrisisCall>, List<
 		// Check for urgency and add to results while preserving index
 		for (CrisisCall call : calls) {
 			if (call.getUrgencyLevel() == urgency) {
-				result.add(calls.indexOf(call), call);
+				result.add(call);
 			}
 		}
 		
