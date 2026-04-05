@@ -15,7 +15,7 @@ public class FilterByStatusStrategy implements Strategy<List<CrisisCall>, List<C
 		// Check for urgency and add to results while preserving index
 		for (CrisisCall call : calls) {
 			if (call.getStatus().toLowerCase() == status) {
-				result.add(calls.indexOf(call), call);
+				result.add(call);
 			}
 		}
 		
