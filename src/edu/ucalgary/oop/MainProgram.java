@@ -344,11 +344,17 @@ public class MainProgram {
 			
 			switch (userInput) {
 				case "1":
-					// TODO execute the schedule by urgency strategy
+					List<CrisisCall> calls = CallManager.getCallList();
+					List<Volunteer> volunteers = VolunteerManager.getVolunteers;
+					calls = ScheduleManager.prioritize(calls);
+					ScheduleManager.assign(calls, volunteers);
+					
 					break;
 					
 				case "2":
-					// TODO execute the schedule by workload and specialty strategy
+					List<CrisisCall> calls = CallManager.getCallList();
+					List<Volunteer> volunteers = VolunteerManager.getVolunteers;
+					ScheduleManager.assign(calls, volunteers);
 					break;
 				case "0":
 					break scheduleLoop;
