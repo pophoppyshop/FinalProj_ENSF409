@@ -1,12 +1,18 @@
 package edu.ucalgary.oop;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
+import java.sql.*;
+import java.time.*;
 
-public class CallManager{
+public class CallManager implements Observer{
 	private static List <CrisisCall> callList =  new ArrayList<>();
+	private static CallManager instance = new CallManager();
 	
 	private CallManager() {
+	}
+	
+	public static CallManager getInstance() {
+		return instance;
 	}
 	
 	public static void addCall(CrisisCall call) {
@@ -44,6 +50,19 @@ public class CallManager{
 	
 	public static List<CrisisCall> getCallList() {
 		return callList;
+	}
+
+	public static List<CrisisCall> getCallList(LocalDate date) {
+		List<CrisisCall> results = new ArrayList<CrisisCall>();
+		
+		// Returns a list of crisis calls based on given date
+		for (CrisisCall call : callList) {
+			if (call.getCallDate().isEqual(date)) {
+				results.add(call);
+			}
+		}
+		
+		return results;
 	}
 	
 	public static List<CrisisCall> filter(Strategy<List <CrisisCall>, List <CrisisCall>> strategy) {
@@ -84,5 +103,9 @@ public class CallManager{
 		}
 		
 		throw new IllegalArgumentException("Call ID does not exist.");
+	}
+
+	@Override
+	public void update() {
 	}
 }
