@@ -144,7 +144,7 @@ public class MainProgram {
 					
 					break;
 				
-				case "2":
+				case "2": {
 					// Get caller info
                     System.out.println("\nEnter caller phone number:");
                     String phone = scanner.nextLine();
@@ -182,7 +182,7 @@ public class MainProgram {
                     
                     System.out.println("Call added successfully.");
                     
-					break;
+					break;}
 					
 				case "3":{
 					// TODO Modify call details (triggers rescheduling if urgency updates)
@@ -200,7 +200,7 @@ public class MainProgram {
                     }
                     
                     // Get call object
-					CrisisCall call = CallManager.getCall(ID);
+					CrisisCall newCall = new CrisisCall(CallManager.getCall(ID));
 
 					System.out.println("Enter new urgency level (1-5):");
 					int newUrgency = Integer.parseInt(scanner.nextLine());
@@ -209,12 +209,11 @@ public class MainProgram {
 					String newNotes = scanner.nextLine();
 
 					// Update urgency and notes 
-					call.setUrgencyLevel(newUrgency);
-					call.setNotes(newNotes);
-
-					System.out.println("Call details updated successfully.");
-
-                    // TODO: If urgency level changes, trigger rescheduling using ScheduleManager
+					newCall.setUrgencyLevel(newUrgency);
+					newCall.setNotes(newNotes);
+					
+					CallManager.modifyCallDetails(newCall);
+                    
                     break;}
 					
 				case "4":{
