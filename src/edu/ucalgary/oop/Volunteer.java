@@ -10,7 +10,7 @@ public class Volunteer {
     private String lastAvailableChange;
     private VolunteerSpecialty specialty;
     private String phoneNumber;
-    
+    private List<VolunteerSpecialty> specialties;
 
     public Volunteer(String name, String phoneNumber, boolean isAvailable, int maxConcurrentCalls){
         this.name = name;
@@ -54,5 +54,9 @@ public class Volunteer {
     public void setCurrentCalls(int currentCalls){
         this.currentCalls = currentCalls;
     }
+
+    public List<VolunteerSpecialty> getSpecialties(){
+        return specialties;
+    }    
 
 }
