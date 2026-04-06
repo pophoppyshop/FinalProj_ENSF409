@@ -208,10 +208,14 @@ public class MainProgram {
 
 					System.out.println("Enter new notes:");
 					String newNotes = scanner.nextLine();
+					
+					System.out.println("Enter updated call duration (mins):");
+					double callDuration = Double.parseDouble(scanner.nextLine());
 
 					// Update urgency and notes 
 					newCall.setUrgencyLevel(newUrgency);
 					newCall.setNotes(newNotes);
+					newCall.setCallDuration(callDuration);
 					
 					CallManager.modifyCallDetails(newCall);
                     
@@ -222,7 +226,7 @@ public class MainProgram {
                     System.out.println("\nEnter call ID:");
                     int ID = Integer.parseInt(scanner.nextLine());
                     
-                    List<CrisisCall >calls = CallManager.getCallList();
+                    List<CrisisCall>calls = CallManager.getCallList();
 
                     if (calls.size() == 0){
                         System.out.println("No calls available.");
