@@ -29,6 +29,8 @@ public class DatabaseManager {
 	
 	public static boolean initializeConnection(String username, String password) {
 		try {
+			addObserver(CallManager.getInstance());
+			
 			dbConnect = DriverManager.getConnection("jdbc:postgresql://localhost/pets", username, password);
 		} catch (SQLException e) {
 			System.out.println("Invalid user/password!");
