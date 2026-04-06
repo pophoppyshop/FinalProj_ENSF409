@@ -13,8 +13,29 @@ public class CallManager{
 		callList.add(call);
 	}
 	
-	public static void modifyCallDetails(CrisisCall call) {
+	public static void modifyCallDetails(CrisisCall newCall) {
 		// still need to implement
+		CrisisCall oldCall;
+		
+		try {
+			oldCall = CallManager.getCall(newCall.getCallID());
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			
+			System.out.println("Call details were not updated.");
+			
+			return;
+		}
+		
+		if (oldCall.getUrgencyLevel() != newCall.getUrgencyLevel()) {
+			// TODO: If urgency level changes, trigger rescheduling using ScheduleManager
+		}
+		
+		// Replace old call with new call
+		callList.set(callList.indexOf(oldCall), newCall);
+		
+		System.out.println("Call details successfully updated.");
+		// TODO: update database
 	}
 	
 	public static void updateStatus(CrisisCall call, String status) {
