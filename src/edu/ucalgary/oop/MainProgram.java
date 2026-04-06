@@ -145,7 +145,7 @@ public class MainProgram {
 					
 					break;
 				
-				case "2":
+				case "2": {
 					// Get caller info
                     System.out.println("\nEnter caller phone number:");
                     String phone = scanner.nextLine();
@@ -183,7 +183,7 @@ public class MainProgram {
                     
                     System.out.println("Call added successfully.");
                     
-					break;
+					break;}
 					
 				case "3":{
 					// TODO Modify call details (triggers rescheduling if urgency updates)
@@ -201,7 +201,7 @@ public class MainProgram {
                     }
                     
                     // Get call object
-					CrisisCall call = CallManager.getCall(ID);
+					CrisisCall newCall = new CrisisCall(CallManager.getCall(ID));
 
 					System.out.println("Enter new urgency level (1-5):");
 					int newUrgency = Integer.parseInt(scanner.nextLine());
@@ -210,12 +210,11 @@ public class MainProgram {
 					String newNotes = scanner.nextLine();
 
 					// Update urgency and notes 
-					call.setUrgencyLevel(newUrgency);
-					call.setNotes(newNotes);
-
-					System.out.println("Call details updated successfully.");
-
-                    // TODO: If urgency level changes, trigger rescheduling using ScheduleManager
+					newCall.setUrgencyLevel(newUrgency);
+					newCall.setNotes(newNotes);
+					
+					CallManager.modifyCallDetails(newCall);
+                    
                     break;}
 					
 				case "4":{
@@ -272,6 +271,7 @@ public class MainProgram {
 					// TODO volunteer filtering
 					List<Volunteer> all = VolunteerManager.getVolunteers();
 					List<Volunteer> result = new ArrayList<>();
+					
 					switch (userInput) {
 						case "s":
 							System.out.println("Enter specialty name:");
@@ -343,19 +343,19 @@ public class MainProgram {
 			String userInput = scanner.nextLine();
 			
 			switch (userInput) {
-				case "1":
+				case "1":{
 					List<CrisisCall> calls = CallManager.getCallList();
-					List<Volunteer> volunteers = VolunteerManager.getVolunteers;
+					List<Volunteer> volunteers = VolunteerManager.getVolunteers();
 					calls = ScheduleManager.prioritize(calls);
 					ScheduleManager.assign(calls, volunteers);
+					break;}
 					
-					break;
-					
-				case "2":
+				case "2":{
 					List<CrisisCall> calls = CallManager.getCallList();
-					List<Volunteer> volunteers = VolunteerManager.getVolunteers;
+					List<Volunteer> volunteers = VolunteerManager.getVolunteers();
 					ScheduleManager.assign(calls, volunteers);
-					break;
+					break;}
+				
 				case "0":
 					break scheduleLoop;
 			}
@@ -365,32 +365,27 @@ public class MainProgram {
 	public static void generateReport(){
 		 List<CrisisCall> calls = CallManager.getCallList();
 
-					if (calls.size() == 0) {
-				        System.out.println("No calls to report.");
-				        break;
-				    }
-				
-				    int pending = 0, active = 0, resolved = 0, escalated = 0; 
-					
-					for (CrisisCall call : calls) {
-				
-				
-				        switch (call.getStatus().toLowerCase()) {
-				            case "pending": pending++; break;
-				            case "active": active++; break;
-					        case "resolved": resolved++; break;
-					        case "escalated": escalated++; break;
-					        }
-					    }
-					
-					
-				    System.out.println("\n----- Daily Report -----");
-				    System.out.println("Total Calls: " + calls.size());
-				    System.out.println("Pending: " + pending);
-				    System.out.println("Active: " + active);
-				    System.out.println("Resolved: " + resolved);
-					System.out.println("Escalated: " + escalated);
-	}
+		if (calls.size() == 0) {
+	        System.out.println("No calls to report.");
+	        return;
+	    }
+	
+	    int pending = 0, active = 0, resolved = 0, escalated = 0; 
 		
+		for (CrisisCall call : calls) {
+	        switch (call.getStatus().toLowerCase()) {
+	            case "pending": pending++; break;
+	            case "active": active++; break;
+		        case "resolved": resolved++; break;
+		        case "escalated": escalated++; break;
+		        }
+		    }
+		
+	    System.out.println("\n----- Daily Report -----");
+	    System.out.println("Total Calls: " + calls.size());
+	    System.out.println("Pending: " + pending);
+	    System.out.println("Active: " + active);
+	    System.out.println("Resolved: " + resolved);
+		System.out.println("Escalated: " + escalated);
 	}
 }

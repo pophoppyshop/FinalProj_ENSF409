@@ -12,6 +12,17 @@ public class CrisisCall{
 	private String notes;
 	private Caller caller;
 	
+	public CrisisCall(CrisisCall call) {
+		callID = call.callID;
+		status = call.status;
+		urgencyLevel = call.urgencyLevel;
+		callTime = call.callTime;
+		callDate = call.callDate;
+		callDuration = call.callDuration;
+		notes = call.notes;
+		caller = new Caller(call.getCaller());
+	}
+	
 	public CrisisCall(int callID, String status, int urgencyLevel, LocalTime callTime, LocalDate callDate, 
 			double callDuration, String notes, Caller caller) {
 		this.callID = callID;
