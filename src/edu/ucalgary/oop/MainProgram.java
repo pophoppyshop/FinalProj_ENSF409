@@ -271,17 +271,56 @@ public class MainProgram {
 					// TODO volunteer filtering
 					switch (userInput) {
 						case "s":
+							System.out.println("Enter specialty name:");
+							String special = scanner.nextLine().toLowerCase();
+
+							for(Volunteer v : all){
+								for (VolunteerSpecialty s : v.getSpecialties()){
+									if (s.getSpecialtyName().toLowerCase().equals(special)){
+										result.add(v);
+										break;
+									}
+								}
+							}
 							break;
 						case "a":
+							for (Volunteer v : all){
+								if (v.getAvailability()){
+									result.add(v);
+								}
+							}
 							break;
 						case "v":
+							result = all;
 							break;
 					}
-					
+					if (result.size() == 0){
+						System.out.println("No volunteers found.");
+					}
+					else{
+						VolunteerManager.printVolunteers(result);
+					}
 					break;
 					
 				case "2":
-					// TODO modify availability (also triggers call reassignment)
+					List<Volunteer> volunteers = VolunteerManager.getVolunteers();
+					if (volunteers.size() == 0){
+						System.out.println("No volunteers available.");
+						break;
+					}
+						VolunteerManager.printVolunteers(volunteers);
+						System.out.println("Enter volunteer index:");
+						int index = Integer.parseInt(scanner.nextLine());
+						if (index < 0 || index >= volunteers.size()){
+							System.out.println("Invalid index.")
+							break;
+						}
+						System.out.println("Set availability (true/false):");
+						boolean newAvailability = Boolean.parseBoolean(scanner.nextLine());
+						volunteers.get(index).setAvailability(newAvailability);
+						System.out.println("Availability updated.");
+
+
 					break;
 					
 				case "0":
