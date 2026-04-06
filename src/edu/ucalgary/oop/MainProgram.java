@@ -57,7 +57,7 @@ public class MainProgram {
 					break;
 					
 				case "4":
-					manageReport();
+					generateReport();
 					break;
 					
 				// Quits program
@@ -356,24 +356,8 @@ public class MainProgram {
 		}
 	}
 	
-	public static void manageReport() {
-		// TODO automatically generate a day report when its 11:59pm
-
-		reportLoop:
-		while (true) {
-			System.out.println("\n----- Report Manager -----");
-			System.out.println("A day report will be automatically generated at 11:59 pm. "
-					+ "You can create a current day report or view past reports here.");
-			System.out.println("Please select an option or '0' to go back:\n" +
-					"(1) Create a current day report\n" + 
-					"(2) View past reports");
-			
-			String userInput = scanner.nextLine();
-			
-			switch(userInput) {
-				case "1":
-					// TODO create current day report and display it
-					 List<CrisisCall> calls = CallManager.getCallList();
+	public static void generateReport(){
+		 List<CrisisCall> calls = CallManager.getCallList();
 
 					if (calls.size() == 0) {
 				        System.out.println("No calls to report.");
@@ -400,19 +384,7 @@ public class MainProgram {
 				    System.out.println("Active: " + active);
 				    System.out.println("Resolved: " + resolved);
 					System.out.println("Escalated: " + escalated);
-
-					break;
-					
-				case "2":{
-					// TODO display past reports
-					System.out.println("\nPlease enter a date in the valid format (YYYY-MM-DD):");
-					userInput = scanner.nextLine();
-					
-					break;}
-				case "0":
-					break reportLoop;
-			}
-		}
+	}
 		
 	}
 }
