@@ -1,5 +1,7 @@
 package edu.ucalgary.oop;
-import java.util.list
+
+import java.util.*;
+
 public class ScheduleManager{
  public static List<CrisisCall> prioritize(List<CrisisCall> calls) {
         calls.sort((c1, c2) -> c2.getUrgencyLevel() - c1.getUrgencyLevel());
