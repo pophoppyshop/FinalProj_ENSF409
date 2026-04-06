@@ -60,5 +60,8 @@ public class Volunteer {
     public List<VolunteerSpecialty> getSpecialties(){
         return specialties;
     }    
+    public void addSpecialty(VolunteerSpecialty specialty){
+        this.specialties.add(specialty);
+    }
 
 }
