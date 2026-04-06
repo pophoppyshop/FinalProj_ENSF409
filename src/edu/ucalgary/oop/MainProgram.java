@@ -3,6 +3,7 @@ package edu.ucalgary.oop;
 import java.sql.*;
 import java.util.List;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 
 public class MainProgram {
@@ -48,7 +49,7 @@ public class MainProgram {
 					break;
 				
 				case "2":
-					// TODO volunteer manager
+					manageVolunteer();
 					break;
 					
 				case "3":
@@ -56,7 +57,7 @@ public class MainProgram {
 					break;
 					
 				case "4":
-					// TODO report management
+					generateReport();
 					break;
 					
 				// Quits program
@@ -268,19 +269,60 @@ public class MainProgram {
 					userInput = userInput.toLowerCase();	// normalize input
 					
 					// TODO volunteer filtering
+					List<Volunteer> all = VolunteerManager.getVolunteers();
+					List<Volunteer> result = new ArrayList<>();
 					switch (userInput) {
 						case "s":
+							System.out.println("Enter specialty name:");
+							String special = scanner.nextLine().toLowerCase();
+
+							for(Volunteer v : all){
+								for (VolunteerSpecialty s : v.getSpecialties()){
+									if (s.getSpecialtyName().toLowerCase().equals(special)){
+										result.add(v);
+										break;
+									}
+								}
+							}
 							break;
 						case "a":
+							for (Volunteer v : all){
+								if (v.getAvailability()){
+									result.add(v);
+								}
+							}
 							break;
 						case "v":
+							result = all;
 							break;
 					}
-					
+					if (result.size() == 0){
+						System.out.println("No volunteers found.");
+					}
+					else{
+						VolunteerManager.printVolunteers(result);
+					}
 					break;
 					
 				case "2":
-					// TODO modify availability (also triggers call reassignment)
+					List<Volunteer> volunteers = VolunteerManager.getVolunteers();
+					if (volunteers.size() == 0){
+						System.out.println("No volunteers available.");
+						break;
+					}
+						VolunteerManager.printVolunteers(volunteers);
+						System.out.println("Enter volunteer index:");
+						int index = Integer.parseInt(scanner.nextLine());
+						if (index < 0 || index >= volunteers.size()){
+							System.out.println("Invalid index.");
+							break;
+						}
+						System.out.println("Set availability (true/false):");
+						boolean newAvailability = Boolean.parseBoolean(scanner.nextLine());
+						volunteers.get(index).setAvailability(newAvailability);
+						System.out.println("Availability updated.");
+
+
 					break;
 					
 				case "0":
@@ -301,11 +343,17 @@ public class MainProgram {
 			
 			switch (userInput) {
 				case "1":
-					// TODO execute the schedule by urgency strategy
+					List<CrisisCall> calls = CallManager.getCallList();
+					List<Volunteer> volunteers = VolunteerManager.getVolunteers;
+					calls = ScheduleManager.prioritize(calls);
+					ScheduleManager.assign(calls, volunteers);
+					
 					break;
 					
 				case "2":
-					// TODO execute the schedule by workload and specialty strategy
+					List<CrisisCall> calls = CallManager.getCallList();
+					List<Volunteer> volunteers = VolunteerManager.getVolunteers;
+					ScheduleManager.assign(calls, volunteers);
 					break;
 				case "0":
 					break scheduleLoop;
@@ -313,35 +361,35 @@ public class MainProgram {
 		}
 	}
 	
-	public static void manageReport() {
-		// TODO automatically generate a day report when its 11:59pm
+	public static void generateReport(){
+		 List<CrisisCall> calls = CallManager.getCallList();
 
-		reportLoop:
-		while (true) {
-			System.out.println("\n----- Report Manager -----");
-			System.out.println("A day report will be automatically generated at 11:59 pm. "
-					+ "You can create a current day report or view past reports here.");
-			System.out.println("Please select an option or '0' to go back:\n" +
-					"(1) Create a current day report\n" + 
-					"(2) View past reports");
-			
-			String userInput = scanner.nextLine();
-			
-			switch(userInput) {
-				case "1":
-					// TODO create current day report and display it
-					break;
+					if (calls.size() == 0) {
+				        System.out.println("No calls to report.");
+				        break;
+				    }
+				
+				    int pending = 0, active = 0, resolved = 0, escalated = 0; 
 					
-				case "2":{
-					// TODO display past reports
-					System.out.println("\nPlease enter a date in the valid format (YYYY-MM-DD):");
-					userInput = scanner.nextLine();
+					for (CrisisCall call : calls) {
+				
+				
+				        switch (call.getStatus().toLowerCase()) {
+				            case "pending": pending++; break;
+				            case "active": active++; break;
+					        case "resolved": resolved++; break;
+					        case "escalated": escalated++; break;
+					        }
+					    }
 					
-					break;}
-				case "0":
-					break reportLoop;
-			}
-		}
+					
+				    System.out.println("\n----- Daily Report -----");
+				    System.out.println("Total Calls: " + calls.size());
+				    System.out.println("Pending: " + pending);
+				    System.out.println("Active: " + active);
+				    System.out.println("Resolved: " + resolved);
+					System.out.println("Escalated: " + escalated);
+	}
 		
 	}
 }

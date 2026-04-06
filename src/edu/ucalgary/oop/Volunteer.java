@@ -10,13 +10,15 @@ public class Volunteer {
     private String lastAvailableChange;
     private VolunteerSpecialty specialty;
     private String phoneNumber;
-    
+    private List<VolunteerSpecialty> specialties;
 
     public Volunteer(String name, String phoneNumber, boolean isAvailable, int maxConcurrentCalls){
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.isAvailable = isAvailable;
         this.maxConcurrentCalls = maxConcurrentCalls;
+
+        this.specialties = new ArrayList<>();
     }
 
     public int getVolunteerID(){
@@ -53,6 +55,13 @@ public class Volunteer {
 
     public void setCurrentCalls(int currentCalls){
         this.currentCalls = currentCalls;
+    }
+
+    public List<VolunteerSpecialty> getSpecialties(){
+        return specialties;
+    }    
+    public void addSpecialty(VolunteerSpecialty specialty){
+        this.specialties.add(specialty);
     }
 
 }
