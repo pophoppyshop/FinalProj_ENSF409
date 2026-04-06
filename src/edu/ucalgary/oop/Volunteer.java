@@ -17,6 +17,8 @@ public class Volunteer {
         this.phoneNumber = phoneNumber;
         this.isAvailable = isAvailable;
         this.maxConcurrentCalls = maxConcurrentCalls;
+
+        this.specialties = new ArrayList<>();
     }
 
     public int getVolunteerID(){
