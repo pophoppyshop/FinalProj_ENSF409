@@ -57,7 +57,7 @@ public class MainProgram {
 					break;
 					
 				case "4":
-					// TODO report management
+					manageReport();
 					break;
 					
 				// Quits program
