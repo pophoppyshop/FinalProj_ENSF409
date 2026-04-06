@@ -7,6 +7,14 @@ public class Caller {
 	private String lastContactDate;
 	private StringBuilder notes;
 	
+	public Caller(Caller caller) {
+		callerID = caller.callerID;
+		phoneNumber = caller.phoneNumber;
+		isAnonymous = caller.isAnonymous;
+		lastContactDate = caller.lastContactDate;
+		notes = new StringBuilder(caller.notes);
+	}
+	
 	public Caller(String phoneNumber, boolean isAnonymous, String lastContactDate,
 			StringBuilder notes) {
 		this.phoneNumber = phoneNumber;
