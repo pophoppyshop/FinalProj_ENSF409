@@ -208,10 +208,14 @@ public class MainProgram {
 
 					System.out.println("Enter new notes:");
 					String newNotes = scanner.nextLine();
+					
+					System.out.println("Enter updated call duration (mins):");
+					double callDuration = Double.parseDouble(scanner.nextLine());
 
 					// Update urgency and notes 
 					newCall.setUrgencyLevel(newUrgency);
 					newCall.setNotes(newNotes);
+					newCall.setCallDuration(callDuration);
 					
 					CallManager.modifyCallDetails(newCall);
                     
@@ -222,7 +226,7 @@ public class MainProgram {
                     System.out.println("\nEnter call ID:");
                     int ID = Integer.parseInt(scanner.nextLine());
                     
-                    List<CrisisCall >calls = CallManager.getCallList();
+                    List<CrisisCall>calls = CallManager.getCallList();
 
                     if (calls.size() == 0){
                         System.out.println("No calls available.");
@@ -268,24 +272,28 @@ public class MainProgram {
 					userInput = scanner.nextLine();
 					userInput = userInput.toLowerCase();	// normalize input
 					
-					// TODO volunteer filtering
+					// Volunteer filtering
 					List<Volunteer> all = VolunteerManager.getVolunteers();
 					List<Volunteer> result = new ArrayList<>();
 					
 					switch (userInput) {
+						// Filter by specialty
 						case "s":
 							System.out.println("Enter specialty name:");
 							String special = scanner.nextLine().toLowerCase();
-
+							
+							// For each volunteer
 							for(Volunteer v : all){
-								for (VolunteerSpecialty s : v.getSpecialties()){
-									if (s.getSpecialtyName().toLowerCase().equals(special)){
+								// For each specialty
+								for (VolunteerSpecialty s : v.getSpecialties()) {
+									if (s.getSpecialtyName().equalsIgnoreCase(special)){
 										result.add(v);
 										break;
 									}
 								}
 							}
 							break;
+						// Filter by availability
 						case "a":
 							for (Volunteer v : all){
 								if (v.getAvailability()){
@@ -293,36 +301,48 @@ public class MainProgram {
 								}
 							}
 							break;
+						// Show all volunteers
 						case "v":
 							result = all;
 							break;
 					}
+					
+					// Display results
 					if (result.size() == 0){
 						System.out.println("No volunteers found.");
 					}
 					else{
 						VolunteerManager.printVolunteers(result);
 					}
+					
 					break;
 					
 				case "2":
 					List<Volunteer> volunteers = VolunteerManager.getVolunteers();
-					if (volunteers.size() == 0){
+					
+					if (volunteers.size() == 0) {
 						System.out.println("No volunteers available.");
 						break;
 					}
-						VolunteerManager.printVolunteers(volunteers);
-						System.out.println("Enter volunteer index:");
-						int index = Integer.parseInt(scanner.nextLine());
-						if (index < 0 || index >= volunteers.size()){
-							System.out.println("Invalid index.");
-							break;
-						}
-						System.out.println("Set availability (true/false):");
-						boolean newAvailability = Boolean.parseBoolean(scanner.nextLine());
-						volunteers.get(index).setAvailability(newAvailability);
-						System.out.println("Availability updated.");
-
+					
+					VolunteerManager.printVolunteers(volunteers);
+					
+					// Get index
+					System.out.println("Enter volunteer index:");
+					int index = Integer.parseInt(scanner.nextLine());
+					
+					// Invalid index handling
+					if (index < 0 || index >= volunteers.size()){
+						System.out.println("Invalid index.");
+						break;
+					}
+					
+					// Update availability
+					System.out.println("Set availability (true/false):");
+					boolean newAvailability = Boolean.parseBoolean(scanner.nextLine());
+					
+					volunteers.get(index).setAvailability(newAvailability);
+					System.out.println("Availability updated.");
 
 					break;
 					
@@ -344,15 +364,19 @@ public class MainProgram {
 			
 			switch (userInput) {
 				case "1":{
+					// Assign calls based on highest urgency
 					List<CrisisCall> calls = CallManager.getCallList();
 					List<Volunteer> volunteers = VolunteerManager.getVolunteers();
+					
 					calls = ScheduleManager.prioritize(calls);
 					ScheduleManager.assign(calls, volunteers);
 					break;}
 					
 				case "2":{
+					// Assign calls based on smaller available workload
 					List<CrisisCall> calls = CallManager.getCallList();
 					List<Volunteer> volunteers = VolunteerManager.getVolunteers();
+					
 					ScheduleManager.assign(calls, volunteers);
 					break;}
 				
