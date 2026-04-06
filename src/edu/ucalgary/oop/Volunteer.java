@@ -1,5 +1,7 @@
 package edu.ucalgary.oop;
 
+import java.util.*;
+
 public class Volunteer {
 
     private int volunteerID;
