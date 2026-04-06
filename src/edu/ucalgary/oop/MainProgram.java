@@ -3,6 +3,7 @@ package edu.ucalgary.oop;
 import java.sql.*;
 import java.util.List;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 
 public class MainProgram {
@@ -48,7 +49,7 @@ public class MainProgram {
 					break;
 				
 				case "2":
-					// TODO volunteer manager
+					manageVolunteer();
 					break;
 					
 				case "3":
@@ -269,6 +270,8 @@ public class MainProgram {
 					userInput = userInput.toLowerCase();	// normalize input
 					
 					// TODO volunteer filtering
+					List<Volunteer> all = VolunteerManager.getVolunteers();
+					List<Volunteer> result = new ArrayList<>();
 					switch (userInput) {
 						case "s":
 							System.out.println("Enter specialty name:");
@@ -312,7 +315,7 @@ public class MainProgram {
 						System.out.println("Enter volunteer index:");
 						int index = Integer.parseInt(scanner.nextLine());
 						if (index < 0 || index >= volunteers.size()){
-							System.out.println("Invalid index.")
+							System.out.println("Invalid index.");
 							break;
 						}
 						System.out.println("Set availability (true/false):");
@@ -370,6 +373,34 @@ public class MainProgram {
 			switch(userInput) {
 				case "1":
 					// TODO create current day report and display it
+					 List<CrisisCall> calls = CallManager.getCallList();
+
+					if (calls.size() == 0) {
+				        System.out.println("No calls to report.");
+				        break;
+				    }
+				
+				    int pending = 0, active = 0, resolved = 0, escalated = 0; 
+					
+					for (CrisisCall call : calls) {
+				
+				
+				        switch (call.getStatus().toLowerCase()) {
+				            case "pending": pending++; break;
+				            case "active": active++; break;
+					        case "resolved": resolved++; break;
+					        case "escalated": escalated++; break;
+					        }
+					    }
+					
+					
+				    System.out.println("\n----- Daily Report -----");
+				    System.out.println("Total Calls: " + calls.size());
+				    System.out.println("Pending: " + pending);
+				    System.out.println("Active: " + active);
+				    System.out.println("Resolved: " + resolved);
+					System.out.println("Escalated: " + escalated);
+
 					break;
 					
 				case "2":{
