@@ -1,75 +1,104 @@
 package edu.ucalgary.oop;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.*;
+import static org.junit.Assert.*;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.ArrayList;
-import java.io.File;
-
-
-class CrisisCall {
-    private String status;
-    private LocalDate callDate;
-
-    public CrisisCall(String status, LocalDate callDate) {
-        this.status = status;
-        this.callDate = callDate;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public LocalDate getCallDate() {
-        return callDate;
-    }
-}
+import java.time.*;
+import java.util.*;
 
 public class ReportManagerTest {
 
-    private List<CrisisCall> createSampleCalls() {
-        List<CrisisCall> calls = new ArrayList<>();
-        calls.add(new CrisisCall("PENDING", LocalDate.of(2026, 4, 5)));
-        calls.add(new CrisisCall("RESOLVED", LocalDate.of(2026, 4, 5)));
-        calls.add(new CrisisCall("ESCALATED", LocalDate.of(2026, 4, 4)));
-        calls.add(new CrisisCall("PENDING", LocalDate.of(2026, 4, 5)));
-        return calls;
+    private ReportManager manager;
+    private List<CrisisCall> calls;
+
+    // expected values
+    private LocalDate testDate;
+    private int expectedFilteredCount;
+    private int expectedPending;
+    private int expectedResolved;
+    private int expectedEscalated;
+
+    // shared objects
+    private Caller caller;
+    private StringBuilder notes;
+
+    @Before
+    public void setUp() {
+
+        // Setup caller
+        notes = new StringBuilder("Test notes");
+        caller = new Caller("111-1111", true, "2026-04-05", notes);
+
+        // Setup date
+        testDate = LocalDate.of(2026, 4, 5);
+
+        // Setup calls
+        calls = new ArrayList<>();
+
+        calls.add(new CrisisCall(1, "PENDING", 3,
+                LocalTime.now(), testDate,
+                10.0, "note1", caller));
+
+        calls.add(new CrisisCall(2, "RESOLVED", 2,
+                LocalTime.now(), testDate,
+                5.0, "note2", caller));
+
+        calls.add(new CrisisCall(3, "ESCALATED", 5,
+                LocalTime.now(), LocalDate.of(2026, 4, 4),
+                8.0, "note3", caller));
+
+        calls.add(new CrisisCall(4, "PENDING", 4,
+                LocalTime.now(), testDate,
+                12.0, "note4", caller));
+
+        manager = new ReportManager(calls);
+
+        // Expected values
+        expectedFilteredCount = 3;
+        expectedPending = 2;
+        expectedResolved = 1;
+        expectedEscalated = 0;
     }
 
     @Test
     public void testFilterCallsByDate() {
-        ReportManager manager = new ReportManager(createSampleCalls());
+        List<CrisisCall> result = manager.filterCallsByDate(testDate);
 
-        List<CrisisCall> result = manager.filterCallsByDate(LocalDate.of(2026, 4, 5));
+        assertEquals("Filtered calls count should match",
+                expectedFilteredCount, result.size());
 
-        assertEquals(3, result.size());
         for (CrisisCall call : result) {
-            assertEquals(LocalDate.of(2026, 4, 5), call.getCallDate());
+            assertEquals("All calls should match the filter date",
+                    testDate, call.getCallDate());
         }
     }
 
     @Test
     public void testGenerateDailyReport() {
-        ReportManager manager = new ReportManager(createSampleCalls());
+        Report report = manager.generateDailyReport(testDate);
 
-        Report report = manager.generateDailyReport(LocalDate.of(2026, 4, 5));
+        assertEquals("Total calls should match",
+                expectedFilteredCount, report.getTotalCalls());
 
-        assertEquals(3, report.getTotalCalls());
-        assertEquals(2, report.getPendingCount());
-        assertEquals(1, report.getResolvedCount());
-        assertEquals(0, report.getEscalatedCount());
-        assertEquals(LocalDate.of(2026, 4, 5), report.getDate());
+        assertEquals("Pending calls should match",
+                expectedPending, report.getPendingCount());
+
+        assertEquals("Resolved calls should match",
+                expectedResolved, report.getResolvedCount());
+
+        assertEquals("Escalated calls should match",
+                expectedEscalated, report.getEscalatedCount());
+
+        assertEquals("Report date should match",
+                testDate, report.getDate());
     }
 
     @Test
     public void testExportReportRuns() {
-        ReportManager manager = new ReportManager(createSampleCalls());
-        Report report = manager.generateDailyReport(LocalDate.of(2026, 4, 5));
-    
+        Report report = manager.generateDailyReport(testDate);
+
         manager.exportReport(report);
-    
-        assertTrue(true); // test passes if no error occurs
+
+        assertTrue("Export should run without crashing", true);
     }
 }

@@ -1,122 +1,126 @@
 package edu.ucalgary.oop;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.*;
+import static org.junit.Assert.*;
 
-import java.util.List;
-import java.util.ArrayList;
-
-class CrisisCall {
-    private int urgency;
-    private int id;
-
-    public CrisisCall(int id, int urgency) {
-        this.id = id;
-        this.urgency = urgency;
-    }
-
-    public int getUrgencyLevel() {
-        return urgency;
-    }
-
-    public int getCallID() {
-        return id;
-    }
-}
-
-class Volunteer {
-    private String name;
-    private boolean available;
-    private int currentCalls;
-    private int maxCalls;
-
-    public Volunteer(String name, boolean available, int currentCalls, int maxCalls) {
-        this.name = name;
-        this.available = available;
-        this.currentCalls = currentCalls;
-        this.maxCalls = maxCalls;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public boolean getAvailability() {
-        return available;
-    }
-
-    public int getCurrentCalls() {
-        return currentCalls;
-    }
-
-    public int getMaxConcurrentCalls() {
-        return maxCalls;
-    }
-
-    public void setCurrentCalls(int c) {
-        currentCalls = c;
-    }
-}
+import java.util.*;
+import java.time.*;
 
 public class ScheduleManagerTest {
 
+    private List<CrisisCall> calls;
+    private List<Volunteer> volunteers;
+
+    // expected values
+    private int highestUrgency;
+    private int secondUrgency;
+    private int thirdUrgency;
+
+    private int expectedAssignedCalls;
+    private int expectedMaxCalls;
+
+    // shared objects
+    private Caller caller;
+    private StringBuilder notes;
+
+    private Volunteer v1;
+    private Volunteer v2;
+
+    @Before
+    public void setUp() {
+
+        // setup caller
+        notes = new StringBuilder("Test notes");
+        caller = new Caller("111-1111", true, "2026-04-05", notes);
+
+        // setup calls
+        calls = new ArrayList<>();
+
+        calls.add(new CrisisCall(1, "PENDING", 2,
+                LocalTime.now(), LocalDate.now(),
+                10.0, "note1", caller));
+
+        calls.add(new CrisisCall(2, "PENDING", 5,
+                LocalTime.now(), LocalDate.now(),
+                5.0, "note2", caller));
+
+        calls.add(new CrisisCall(3, "PENDING", 3,
+                LocalTime.now(), LocalDate.now(),
+                8.0, "note3", caller));
+
+        // setup volunteers
+        volunteers = new ArrayList<>();
+
+        v1 = new Volunteer("Alice", "123", true, 2);
+        v1.setCurrentCalls(0);
+
+        v2 = new Volunteer("Bob", "456", true, 2);
+        v2.setCurrentCalls(2); // already at max
+
+        volunteers.add(v1);
+        volunteers.add(v2);
+
+        // expected values
+        highestUrgency = 5;
+        secondUrgency = 3;
+        thirdUrgency = 2;
+
+        expectedAssignedCalls = 1;
+        expectedMaxCalls = 2;
+    }
+
     @Test
     public void testPrioritize() {
-        List<CrisisCall> calls = new ArrayList<>();
-        calls.add(new CrisisCall(1, 2));
-        calls.add(new CrisisCall(2, 5));
-        calls.add(new CrisisCall(3, 3));
-
         ScheduleManager.prioritize(calls);
 
-        // highest urgency should come first
-        assertEquals(5, calls.get(0).getUrgencyLevel());
-        assertEquals(3, calls.get(1).getUrgencyLevel());
-        assertEquals(2, calls.get(2).getUrgencyLevel());
+        assertEquals("Highest urgency should be first",
+                highestUrgency, calls.get(0).getUrgencyLevel());
+
+        assertEquals("Second highest urgency should be second",
+                secondUrgency, calls.get(1).getUrgencyLevel());
+
+        assertEquals("Lowest urgency should be last",
+                thirdUrgency, calls.get(2).getUrgencyLevel());
     }
 
     @Test
     public void testAssignUpdatesVolunteerCalls() {
-        List<CrisisCall> calls = new ArrayList<>();
-        calls.add(new CrisisCall(1, 3));
+        // use first call for clarity
+        List<CrisisCall> singleCall = new ArrayList<>();
+        singleCall.add(calls.get(0));
 
-        List<Volunteer> volunteers = new ArrayList<>();
-        volunteers.add(new Volunteer("Alice", true, 0, 2));
+        ScheduleManager.assign(singleCall, volunteers);
 
-        ScheduleManager.assign(calls, volunteers);
-
-        // volunteer should now have 1 call assigned
-        assertEquals(1, volunteers.get(0).getCurrentCalls());
+        assertEquals("Volunteer should receive one call",
+                expectedAssignedCalls, v1.getCurrentCalls());
     }
 
     @Test
     public void testAssignRespectsMaxCalls() {
-        List<CrisisCall> calls = new ArrayList<>();
-        calls.add(new CrisisCall(1, 3));
+        // Only use second volunteer (already at max)
+        List<Volunteer> singleVolunteer = new ArrayList<>();
+        singleVolunteer.add(v2);
 
-        List<Volunteer> volunteers = new ArrayList<>();
-        volunteers.add(new Volunteer("Bob", true, 2, 2)); // already at max
+        List<CrisisCall> singleCall = new ArrayList<>();
+        singleCall.add(calls.get(0));
 
-        ScheduleManager.assign(calls, volunteers);
+        ScheduleManager.assign(singleCall, singleVolunteer);
 
-        // should not increase
-        assertEquals(2, volunteers.get(0).getCurrentCalls());
+        assertEquals("Volunteer at max should not receive more calls",
+                expectedMaxCalls, v2.getCurrentCalls());
     }
 
-  // could be improved; adjust later  
-  @Test
+    @Test
     public void testEscalateLogic() {
-        List<CrisisCall> calls = new ArrayList<>();
-        calls.add(new CrisisCall(1, 5));
-        calls.add(new CrisisCall(2, 3));
-
         int count = 0;
+
         for (CrisisCall c : calls) {
             if (c.getUrgencyLevel() == 5) {
                 count++;
             }
         }
 
-        assertEquals(1, count);
+        assertEquals("There should be one call with urgency level 5",
+                1, count);
     }
 }
