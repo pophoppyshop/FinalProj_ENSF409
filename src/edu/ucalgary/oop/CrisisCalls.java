@@ -1,6 +1,8 @@
 package edu.ucalgary.oop;
 
 import java.time.*;
+import java.util.*;
+import java.util.regex.Pattern;
 
 public class CrisisCall{
 	private int callID;
@@ -79,24 +81,12 @@ public class CrisisCall{
 		this.urgencyLevel = urgencyLevel;
 	}
 	
-	public void setCallTime(LocalTime callTime) {
-		this.callTime = callTime;
-	}
-	
-	public void setCallDate(LocalDate callDate) {
-		this.callDate = callDate;
-	}
-	
 	public void setCallDuration(double callDuration) {
 		this.callDuration = callDuration;
 	}
 	
 	public void setNotes(String notes) {
 		this.notes = notes;
-	}
-	
-	public void setCaller(Caller caller) {
-		this.caller = caller;
 	}
 	
 	public String toString() {
