@@ -20,6 +20,13 @@ public class CallManager implements Observer{
 		callList.add(call);
 	}
 	
+	public static boolean isPhoneFormat(String phoneNumber) {
+		// Compare phone number input with regex
+		String phoneRegex = "^(\\d{3})[\\s.-_,]*(\\d{3})[\\s.-_,]*(\\d{4})$";
+		
+		return phoneNumber.matches(phoneRegex);
+	}
+	
 	public static void modifyCallDetails(CrisisCall newCall) {
 		CrisisCall oldCall;
 		
@@ -145,6 +152,7 @@ public class CallManager implements Observer{
 	@Override
 	public void update() { 
 		System.out.println("Updating calls from database..."); 
+		// Clear list to update
         callList.clear(); 
         
         try { 
