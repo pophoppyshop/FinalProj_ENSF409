@@ -80,7 +80,7 @@ public class CallManager implements Observer{
 	public static void printCallList(List<CrisisCall> calls) {
 		// Return if no calls can be printed
 		if (calls.size() == 0) {
-			System.out.println("No calls in the list!");
+			System.out.println("No calls found!");
 			return;
 		}
 		
