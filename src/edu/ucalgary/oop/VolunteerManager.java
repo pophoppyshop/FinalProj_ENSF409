@@ -3,7 +3,7 @@ package edu.ucalgary.oop;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VolunteerManager{
+public class VolunteerManager implements Observer{
 	private static List<Volunteer> volunteers = new ArrayList<>();
 	
 	public static List<Volunteer> getVolunteers(){
@@ -47,4 +47,16 @@ public class VolunteerManager{
 	public static List<Volunteer> filter(Strategy<List <Volunteer>, List <Volunteer>> strategy) {
 		return strategy.execute(volunteers);
 	}
+
+	@Override
+	public void update() {
+		System.out.println("Updating volunteers from database..."); 
+		
+		// Clear list to update
+        volunteers.clear();
+        
+        
+	}
+	
+	
 }
