@@ -3,21 +3,24 @@ package edu.ucalgary.oop;
 import org.junit.*;
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 public class VolunteerTest {
     //specialty information
-    private String expectedSpecialtyName;
-    private String expectedSpecialtyDescription;
-    private LocalDate expectedCertificationDate;
+    private String expectedSpecialtyName = "trauma counseling";
+    private String expectedSpecialtyDescription = "expertise with counseling individuals experiencing trauma";
+    private LocalDate expectedCertificationDate = LocalDate.now();
     private VolunteerSpecialty expectedSpecialty;
 
     //volunteer info
-    private int expectedVolunteerID;
-    private String expectedName;
-    private boolean expectedIsAvailable;
-    private int expectedMaxConcurrentCalls;
-    private int expectedCurrentCalls;
-    private String expectedLastAvailableChange;
-    private String expectedPhoneNumber;
+    private int expectedVolunteerID = 5;
+    private String expectedName = "Susan Jones";
+    private boolean expectedIsAvailable = true;
+    private int expectedMaxConcurrentCalls = 4;
+    private int expectedCurrentCalls = 2;
+    private String expectedLastAvailableChange = "null";
+    private String expectedPhoneNumber = "222-2222-2222";
     private Volunteer volunteer;
 
 

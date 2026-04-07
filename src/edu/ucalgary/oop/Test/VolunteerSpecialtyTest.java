@@ -6,9 +6,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class VolunteerSpecialtyTest {
-    private String expectedSpecialtyName;
-    private String expectedSpecialtyDescription;
-    private LocalDate expectedCertificationDate;
+    private String expectedSpecialtyName = "trauma counseling";
+    private String expectedSpecialtyDescription = "expertise with counseling individuals experiencing trauma";
+    private LocalDate expectedCertificationDate = LocalDate.now();
     private LocalDate expectedCerificationExpiryDate = expectedCertificationDate.plusYears(2);
 
 
