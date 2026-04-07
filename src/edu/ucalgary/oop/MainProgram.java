@@ -54,6 +54,7 @@ public class MainProgram {
 					
 				case "3":
 					// TODO scheduling
+					scheduling();
 					break;
 					
 				case "4":
@@ -132,15 +133,12 @@ public class MainProgram {
 						case "a": {
 							// Print all calls
 	                        List<CrisisCall> calls = CallManager.getCallList();
-	                        
-	                        if (calls.size() == 0) {
-	                            System.out.println("No calls available.");
-	                        }
-	                        else{
-	                            CallManager.printCallList(calls);
-	                        }
+	                        CallManager.printCallList(calls);
 	                        
 							break;}
+						
+						default:
+							System.out.println("Invalid option! Please try again.");
 					}
 					
 					break;
@@ -154,10 +152,12 @@ public class MainProgram {
 					String input = scanner.nextLine().toLowerCase();
 					boolean isAnonymous = input.equals("true") || input.equals("yes");
 
+					// Create new caller object
                     Caller caller = new Caller (
+                    	CallManager.generateUniqueCallerID(),	
                         phone,
                         isAnonymous,
-                        java.time.LocalDate.now().toString(),
+                        java.time.LocalDate.now(),
                         new StringBuilder("N/A")
                     );
                     
@@ -170,7 +170,7 @@ public class MainProgram {
 
                     // Create new call object
                     CrisisCall newCall = new CrisisCall(
-                    	CallManager.generateUniqueID(),
+                    	CallManager.generateUniqueCallID(),
                         "Pending",
                         urgency,
                         java.time.LocalTime.now(),
@@ -179,6 +179,7 @@ public class MainProgram {
                         notes,
                         caller
                     );
+                    
                     CallManager.addCall(newCall);
                     
                     System.out.println("Call added successfully.");
@@ -189,20 +190,18 @@ public class MainProgram {
 					// TODO Modify call details (triggers rescheduling if urgency updates)
 					System.out.println("\nEnter call ID:");
                     int ID = Integer.parseInt(scanner.nextLine());
-                    List<CrisisCall> calls = CallManager.getCallList();
-
-                    if (calls.size() == 0){
-                        System.out.println("No calls available.");
-                        break;
-                    }
-                    if (ID < 0 || ID > calls.size()){
-                        System.out.println("Invalid index.");
-                        break;
-                    }
+                    CrisisCall newCall;
                     
-                    // Get call object
-					CrisisCall newCall = new CrisisCall(CallManager.getCall(ID));
+                    try {
+	                    // Get call object
+						newCall = new CrisisCall(CallManager.getCall(ID));
+                    } catch (IllegalArgumentException | IllegalStateException e) {
+                    	//Return to menu
+                    	e.printStackTrace();
+                    	break;
+                    }
 
+                    // Get updated information
 					System.out.println("Enter new urgency level (1-5):");
 					int newUrgency = Integer.parseInt(scanner.nextLine());
 
@@ -226,28 +225,27 @@ public class MainProgram {
                     System.out.println("\nEnter call ID:");
                     int ID = Integer.parseInt(scanner.nextLine());
                     
-                    List<CrisisCall>calls = CallManager.getCallList();
-
-                    if (calls.size() == 0){
-                        System.out.println("No calls available.");
-                        break;
-                    }
-                    if (ID < 0 || ID > calls.size()){
-                        System.out.println("Invalid index.");
-                        break;
-                    }
-                    
                     // Get updated status
                     System.out.println("Enter new status (Pending/Active/Resolved/Escalated)");
                     String status = scanner.nextLine();
                     
                     // Updating
-					CallManager.updateStatus(CallManager.getCall(ID), status);
+                    try {
+                    	CallManager.updateStatus(CallManager.getCall(ID), status);
+                    } catch (IllegalArgumentException | IllegalStateException e) {
+                    	// Return to menu
+                    	e.printStackTrace();
+                    	break;
+                    }
+                    
 					System.out.println("Status updated successfully.");
 					break;}
 					
 				case "0":
 					break callLoop;
+					
+				default:
+					System.out.println("Invalid option! Please try again.");
 			}
 		}
 	}
@@ -305,6 +303,9 @@ public class MainProgram {
 						case "v":
 							result = all;
 							break;
+							
+						default:
+							System.out.println("Invalid option! Please try again.");
 					}
 					
 					// Display results
@@ -348,6 +349,9 @@ public class MainProgram {
 					
 				case "0":
 					break volunteerLoop;
+					
+				default:
+					System.out.println("Invalid option! Please try again.");
 			}
 		}
 	}
@@ -382,6 +386,9 @@ public class MainProgram {
 				
 				case "0":
 					break scheduleLoop;
+					
+				default:
+					System.out.println("Invalid option! Please try again.");
 			}
 		}
 	}
