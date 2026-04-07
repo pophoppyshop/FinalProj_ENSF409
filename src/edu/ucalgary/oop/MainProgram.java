@@ -2,6 +2,7 @@ package edu.ucalgary.oop;
 
 import java.util.List;
 import java.util.Scanner;
+import java.time.*;
 import java.util.ArrayList;
 
 
@@ -42,7 +43,6 @@ public class MainProgram {
 			// Check input option
 			switch (userInput) {
 				case "1":
-					// TODO Call manager
 					manageCall();
 					
 					break;
@@ -144,8 +144,15 @@ public class MainProgram {
 				
 				case "2": {
 					// Get caller info
-                    System.out.println("\nEnter caller phone number:");
+                    System.out.println("\nEnter caller phone number (XXX-XXX-XXXX):");
                     String phone = scanner.nextLine();
+                    
+                    // Check if phone format is correct
+                    if (!CallManager.isPhoneFormat(phone)) {
+                    	System.out.println("Invalid phone format!");
+                    	
+                    	break;
+                    }
                     
                     System.out.println("Is the caller anonymous? (yes or no):");
 					String input = scanner.nextLine().toLowerCase();
@@ -156,7 +163,7 @@ public class MainProgram {
                     	CallManager.generateUniqueCallerID(),	
                         phone,
                         isAnonymous,
-                        java.time.LocalDate.now(),
+                        LocalDate.now(),
                         new StringBuilder("N/A")
                     );
                     
@@ -172,8 +179,8 @@ public class MainProgram {
                     	CallManager.generateUniqueCallID(),
                         "Pending",
                         urgency,
-                        java.time.LocalTime.now(),
-                        java.time.LocalDate.now(),
+                        LocalTime.now(),
+                        LocalDate.now(),
                         0.0,
                         notes,
                         caller
@@ -371,29 +378,14 @@ public class MainProgram {
 	}
 	
 	public static void generateReport(){
-		 List<CrisisCall> calls = CallManager.getCallList();
-
-		if (calls.size() == 0) {
-	        System.out.println("No calls to report.");
-	        return;
-	    }
-	
-	    int pending = 0, active = 0, resolved = 0, escalated = 0; 
+		// Generate the report
+		 Report currentReport = ReportManager.generateDailyReport(LocalDate.now());
 		
-		for (CrisisCall call : calls) {
-	        switch (call.getStatus().toLowerCase()) {
-	            case "pending": pending++; break;
-	            case "active": active++; break;
-		        case "resolved": resolved++; break;
-		        case "escalated": escalated++; break;
-		        }
-		    }
-		
-	    System.out.println("\n----- Daily Report -----");
-	    System.out.println("Total Calls: " + calls.size());
-	    System.out.println("Pending: " + pending);
-	    System.out.println("Active: " + active);
-	    System.out.println("Resolved: " + resolved);
-		System.out.println("Escalated: " + escalated);
+		// Display report
+	    System.out.println("\n----- Daily Report (" + LocalDate.now() + ") -----");
+	    System.out.println(currentReport.formatReport());
+	    
+	    // Write to file
+	    ReportManager.exportReport(currentReport);
 	}
 }
