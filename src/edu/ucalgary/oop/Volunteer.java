@@ -10,7 +10,6 @@ public class Volunteer {
     private int maxConcurrentCalls;
     private int currentCalls;
     private String lastAvailableChange;
-    private VolunteerSpecialty specialty;
     private String phoneNumber;
     private List<VolunteerSpecialty> specialties;
 
@@ -61,9 +60,32 @@ public class Volunteer {
 
     public List<VolunteerSpecialty> getSpecialties(){
         return specialties;
-    }    
+    }   
+    
     public void addSpecialty(VolunteerSpecialty specialty){
-        this.specialties.add(specialty);
+        specialties.add(specialty);
     }
-
+    
+    public String toString() {
+    	String specialtiesString = "";
+    	
+    	// Add specialties to the string if there are any
+    	if (specialties.size() == 0) {
+    		specialtiesString = "No specialty";
+    	}
+    	else {
+			for (VolunteerSpecialty specialty : specialties) {
+				specialtiesString += specialty.toString();
+			}
+    	}
+    	
+    	return "\nID: " + volunteerID +
+    			"\n\tName: " + name +
+    			"\n\tPhone number:" + phoneNumber +
+    			"\n\tIs available: " + ((isAvailable) ? "Yes" : "No") + 
+    			"\n\tMax concurrent calls: " + maxConcurrentCalls +
+    			"\n\tNumber of current calls: " + currentCalls +
+    			"\n\tLast available change: " + lastAvailableChange +
+    			"\nSpecialty:" + specialtiesString;
+    }
 }
