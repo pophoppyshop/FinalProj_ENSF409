@@ -9,37 +9,38 @@ public class VolunteerSpecialtyTest {
     private String expectedSpecialtyName;
     private String expectedSpecialtyDescription;
     private LocalDate expectedCertificationDate;
+    private LocalDate expectedCerificationExpiryDate = expectedCertificationDate.plusYears(2);
 
 
     @Before
     public void setUp(){
-        //TO DO
+        volunteerSpecialty = new volunteerSpecialty(expectedSpecialtyName, expectedSpecialtyDescription, expectedCertificationDate);
     }
 
     @Test
     public void testGetSpecialtyName(){
-        //TO DO
+        assertEquals("Volunteer should be given specialty", expectedSpecialtyName, volunteerSpecialty.getSpecialtyName());
     }
 
     @Test
     public void testGetCertificationDate(){
-        //TO DO
+        assertEquals("Volunteer certification has date it was recieved", expectedCertificationDate, volunteerSpecialty.getCertificationDate());
     }
 
     @Test
     public void testGetCertificationExpiryDate(){
-        //TO DO
+        assertEquals("Volunteer certification has an expiry date", expectedCertificationExpiryDate, volunteerSpecialty.getCertificationExpiryDate());
     }
 
     @Test
     public void testInvalidCertification() throws Exception{
-        //TO DO
-        //should isCertificationValid throw error for invalid cert?
+        
     }
 
     @Test
     public void testValidCertification(){
-        //TO DO
+        boolean expectedIsValid = true;
+        volunteerSpecialty.isCertificationValid();
     }
 
 }

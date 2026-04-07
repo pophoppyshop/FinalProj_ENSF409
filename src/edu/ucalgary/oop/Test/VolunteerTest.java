@@ -4,54 +4,68 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 public class VolunteerTest {
+    //specialty information
+    private String expectedSpecialtyName;
+    private String expectedSpecialtyDescription;
+    private LocalDate expectedCertificationDate;
+    private VolunteerSpecialty expectedSpecialty;
+
+    //volunteer info
     private int expectedVolunteerID;
     private String expectedName;
     private boolean expectedIsAvailable;
     private int expectedMaxConcurrentCalls;
     private int expectedCurrentCalls;
     private String expectedLastAvailableChange;
-    private VolunteerSpecialty specialty;
     private String expectedPhoneNumber;
+    private Volunteer volunteer;
 
 
     @Before
     public void setUp(){
-        //TO DO
-        //set up volunteer specialty
+        expectedSpecialty = new VolunteerSpecialty(expectedSpecialtyName, expectedSpecialtyDescription, expectedCertificationDate);
+        volunteer = new Volunteer(expectedName, expectedPhoneNumber, expectedIsAvailable,
+                    expectedMaxConcurrentCalls);
     }
 
     @Test
     public void testGetVolunteerID(){
-        //TO DO
+        assertEquals("Volunteer should have ID", expectedVolunteerID, volunteer.getVolunteerID());
     }
 
     @Test
     public void testGetName(){
-        //TO DO
+        assertEquals("Volunteer should be assigned name", expectedName, volunteer.getName());
     }
 
     @Test
     public void testGetPhoneNumber(){
-        //TO DO
+        assertEquals("Volunteer should have phone number", expectedPhoneNumber, volunteer.getPhoneNumber());
     }
 
     @Test
     public void testGetAvailability(){
-        //TO DO
+        assertEquals("Volunteer should have availability status", expectedIsAvailable, volunteer.getAvaliability());
     }
 
     @Test
     public void testGetMaxConcurrentCalls(){
-        //TO DO
+        assertEquals("Volunteer should be assigned max concurrent calls", expectedMaxConcurrentCalls, volunteer.getMaxConcurrentCalls());
     }
 
     @Test
     public void testGetCurrentCalls(){
-        //TO DO
+        assertEquals("Volunteer should have a number of active calls", expectedCurrentCalls, volunteer.getCurrentCalls());
     }
 
     @Test
-    public void testGetLastAvaulableChange(){
-        //TO DO
+    public void testGetLastAvailableChange(){
+        assertEquals("Volunteer should have last available change", expectedLastAvailableChange, volunteer.getLastAvailableChange());
+    }
+
+    @Test
+    public void testAddSpecialty(){
+        String expectedAddedSpecialty = "suicide prevention";
+        assertEquals("Specialty should be added", expectedAddedSpecialty, volunteer.addSpecialty("suicide prevention"));
     }
 }
