@@ -1,6 +1,5 @@
 package edu.ucalgary.oop;
 
-import java.sql.*;
 import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -270,80 +269,58 @@ public class MainProgram {
 					userInput = scanner.nextLine();
 					userInput = userInput.toLowerCase();	// normalize input
 					
-					// Volunteer filtering
-					List<Volunteer> all = VolunteerManager.getVolunteers();
-					List<Volunteer> result = new ArrayList<>();
-					
 					switch (userInput) {
 						// Filter by specialty
-						case "s":
+						case "s":{
 							System.out.println("Enter specialty name:");
-							String special = scanner.nextLine().toLowerCase();
+							String special = scanner.nextLine();
 							
-							// For each volunteer
-							for(Volunteer v : all){
-								// For each specialty
-								for (VolunteerSpecialty s : v.getSpecialties()) {
-									if (s.getSpecialtyName().equalsIgnoreCase(special)){
-										result.add(v);
-										break;
-									}
-								}
-							}
-							break;
+							// Use filter strategy
+							List<Volunteer> results = VolunteerManager.filter(new FilterBySpecialtyStrategy(special));
+							VolunteerManager.printVolunteers(results);
+							
+							break;}
 						// Filter by availability
-						case "a":
-							for (Volunteer v : all){
-								if (v.getAvailability()){
-									result.add(v);
-								}
-							}
-							break;
+						case "a":{
+							System.out.println("Enter availability (Yes|No):");
+							String input = scanner.nextLine();
+							boolean availability = input.equalsIgnoreCase("True") || input.equalsIgnoreCase("Yes");
+							
+							// Use filter strategy
+							List<Volunteer> results = VolunteerManager.filter(new FilterByAvailabilityStrategy(availability));
+							VolunteerManager.printVolunteers(results);
+							
+							break;}
 						// Show all volunteers
 						case "v":
-							result = all;
+							VolunteerManager.printVolunteers(VolunteerManager.getVolunteers());
+							
 							break;
 							
 						default:
 							System.out.println("Invalid option! Please try again.");
 					}
 					
-					// Display results
-					if (result.size() == 0){
-						System.out.println("No volunteers found.");
-					}
-					else{
-						VolunteerManager.printVolunteers(result);
-					}
-					
 					break;
 					
 				case "2":
-					List<Volunteer> volunteers = VolunteerManager.getVolunteers();
-					
-					if (volunteers.size() == 0) {
-						System.out.println("No volunteers available.");
-						break;
-					}
-					
-					VolunteerManager.printVolunteers(volunteers);
-					
 					// Get index
 					System.out.println("Enter volunteer index:");
 					int index = Integer.parseInt(scanner.nextLine());
 					
-					// Invalid index handling
-					if (index < 0 || index >= volunteers.size()){
-						System.out.println("Invalid index.");
-						break;
-					}
-					
 					// Update availability
-					System.out.println("Set availability (true/false):");
-					boolean newAvailability = Boolean.parseBoolean(scanner.nextLine());
+					System.out.println("Is volunteer available? (yes/no):");
+					String input = scanner.nextLine();
+					boolean newAvailability = input.equalsIgnoreCase("True") || input.equalsIgnoreCase("Yes");
 					
-					volunteers.get(index).setAvailability(newAvailability);
-					System.out.println("Availability updated.");
+					try {
+						VolunteerManager.getVolunteer(index).setAvailability(newAvailability);
+						System.out.println("Availability updated.");
+					} catch (IllegalArgumentException | IllegalStateException e) {
+						e.printStackTrace();
+						
+						return;
+					}
 
 					break;
 					
