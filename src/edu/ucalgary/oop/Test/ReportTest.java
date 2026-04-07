@@ -1,79 +1,123 @@
 package edu.ucalgary.oop;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.*;
+import static org.junit.Assert.*;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.ArrayList;
-
-class CrisisCall {
-    private String status;
-
-    public CrisisCall(String status) {
-        this.status = status;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-}
+import java.time.*;
+import java.util.*;
 
 public class ReportTest {
 
-    private Report createSampleReport() {
-        List<CrisisCall> calls = new ArrayList<>();
-        calls.add(new CrisisCall("PENDING"));
-        calls.add(new CrisisCall("RESOLVED"));
-        calls.add(new CrisisCall("ESCALATED"));
-        calls.add(new CrisisCall("PENDING"));
-        calls.add(new CrisisCall("RESOLVED"));
+    private Report report;
+    private List<CrisisCall> calls;
 
-        return new Report(LocalDate.of(2026, 4, 5), calls);
+    // expected values
+    private int expectedTotal;
+    private int expectedPending;
+    private int expectedResolved;
+    private int expectedEscalated;
+    private LocalDate expectedDate;
+
+    // shared objects
+    private Caller caller;
+    private StringBuilder notes;
+
+    @Before
+    public void setUp() {
+
+        // setup caller
+        notes = new StringBuilder("Test notes");
+        caller = new Caller("111-1111", true, "2026-04-05", notes);
+
+        // setup calls
+        calls = new ArrayList<>();
+
+        calls.add(new CrisisCall(1, "PENDING", 3,
+                LocalTime.now(), LocalDate.of(2026, 4, 5),
+                10.0, "note1", caller));
+
+        calls.add(new CrisisCall(2, "RESOLVED", 2,
+                LocalTime.now(), LocalDate.of(2026, 4, 5),
+                5.0, "note2", caller));
+
+        calls.add(new CrisisCall(3, "ESCALATED", 5,
+                LocalTime.now(), LocalDate.of(2026, 4, 5),
+                8.0, "note3", caller));
+
+        calls.add(new CrisisCall(4, "PENDING", 4,
+                LocalTime.now(), LocalDate.of(2026, 4, 5),
+                12.0, "note4", caller));
+
+        calls.add(new CrisisCall(5, "RESOLVED", 1,
+                LocalTime.now(), LocalDate.of(2026, 4, 5),
+                6.0, "note5", caller));
+
+        expectedDate = LocalDate.of(2026, 4, 5);
+
+        report = new Report(expectedDate, calls);
+
+        expectedTotal = 5;
+        expectedPending = 2;
+        expectedResolved = 2;
+        expectedEscalated = 1;
     }
 
     @Test
     public void testTotalCalls() {
-        Report report = createSampleReport();
-        assertEquals(5, report.getTotalCalls());
+        assertEquals("total calls should match",
+                expectedTotal, report.getTotalCalls());
     }
 
     @Test
     public void testPendingCalls() {
-        Report report = createSampleReport();
-        assertEquals(2, report.getPendingCount());
-        assertEquals(2, report.getPendingCalls().size());
+        assertEquals("pending count should match",
+                expectedPending, report.getPendingCount());
+
+        assertEquals("pending list size should match",
+                expectedPending, report.getPendingCalls().size());
     }
 
     @Test
     public void testResolvedCalls() {
-        Report report = createSampleReport();
-        assertEquals(2, report.getResolvedCount());
-        assertEquals(2, report.getResolvedCalls().size());
+        assertEquals("resolved count should match",
+                expectedResolved, report.getResolvedCount());
+
+        assertEquals("resolved list size should match",
+                expectedResolved, report.getResolvedCalls().size());
     }
 
     @Test
     public void testEscalatedCalls() {
-        Report report = createSampleReport();
-        assertEquals(1, report.getEscalatedCount());
-        assertEquals(1, report.getEscalatedCalls().size());
+        assertEquals("escalated count should match",
+                expectedEscalated, report.getEscalatedCount());
+
+        assertEquals("escalated list size should match",
+                expectedEscalated, report.getEscalatedCalls().size());
     }
 
     @Test
     public void testDate() {
-        Report report = createSampleReport();
-        assertEquals(LocalDate.of(2026, 4, 5), report.getDate());
+        assertEquals("report date should match",
+                expectedDate, report.getDate());
     }
 
     @Test
     public void testFormatReport() {
-        Report report = createSampleReport();
         String output = report.formatReport();
 
-        assertTrue(output.contains("Report Date: 2026-04-05"));
-        assertTrue(output.contains("Total Calls: 5"));
-        assertTrue(output.contains("Resolved Calls: 2"));
-        assertTrue(output.contains("Escalated Calls: 1"));
-        assertTrue(output.contains("Pending Calls: 2"));
+        assertTrue("should contain correct date",
+                output.contains("Report Date: 2026-04-05"));
+
+        assertTrue("should contain total calls",
+                output.contains("Total Calls: 5"));
+
+        assertTrue("should contain resolved calls",
+                output.contains("Resolved Calls: 2"));
+
+        assertTrue("should contain escalated calls",
+                output.contains("Escalated Calls: 1"));
+
+        assertTrue("should contain pending calls",
+                output.contains("Pending Calls: 2"));
     }
 }
