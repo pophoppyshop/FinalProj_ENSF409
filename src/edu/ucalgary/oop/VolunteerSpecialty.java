@@ -37,5 +37,10 @@ public class VolunteerSpecialty {
     public void setCertificationDate(LocalDate certDate){
         this.certificationDate = certDate;
     }
-
+    
+    public String toString() {
+    	return "\n\tSpecialty name: " + specialtyName +
+    			"\n\tSpecialty description: " + specialtyDescription +
+    			"\n\tCertificate expiry date: " + certificationDate;
+    }
 }
