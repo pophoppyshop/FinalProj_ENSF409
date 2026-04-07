@@ -6,7 +6,7 @@ public class FilterByStatusStrategy implements Strategy<List<CrisisCall>, List<C
 	String status;
 	
 	public FilterByStatusStrategy(String status) {
-		this.status = status.toLowerCase(); // normalize to lower case
+		this.status = status;
 	}
 	
 	public List<CrisisCall> execute(List<CrisisCall> calls) {
