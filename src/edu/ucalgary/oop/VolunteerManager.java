@@ -12,12 +12,16 @@ public class VolunteerManager{
 		volunteers.add(v);
 	}
 	public static void printVolunteers(List<Volunteer> list){
+		// Indicate empty volunteer list
+		if (list.size() == 0) {
+			System.out.println("No volunteers in list");
+			return;
+		}
+		
 		// Display volunteer information
 		for (Volunteer v : list){
-			System.out.println(
-					"Name: " + v.getName() + "\nPhone: " + v.getPhoneNumber() + "\nAvailable: " 
-							+ (v.getAvailability() ? "Yes" : "No"));
-			System.out.println("------------");
+			System.out.println(v);
+			System.out.println("--------------------------");
 		}
 	}
 }
