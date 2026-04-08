@@ -1,6 +1,7 @@
 package edu.ucalgary.oop;
 
 import java.util.*;
+import java.time.*;
 
 public class Volunteer {
 
@@ -9,15 +10,22 @@ public class Volunteer {
     private boolean isAvailable;
     private int maxConcurrentCalls;
     private int currentCalls;
-    private String lastAvailableChange;
+    private LocalDate lastAvailableChange;
     private String phoneNumber;
     private List<VolunteerSpecialty> specialties;
 
-    public Volunteer(String name, String phoneNumber, boolean isAvailable, int maxConcurrentCalls){
+    public Volunteer(String name, String phoneNumber, boolean isAvailable, int maxConcurrentCalls, 
+    		LocalDate lastAvailableChange, int currentCalls){
+    	// Normalize phone number
+    	String phoneRegex = "^(\\d{3})[\\s.-_,]*(\\d{3})[\\s.-_,]*(\\d{4})$";
+		String replacement = "$1-$2-$3";
+    	
         this.name = name;
-        this.phoneNumber = phoneNumber;
+        this.phoneNumber = phoneNumber.replaceAll(phoneRegex, replacement);
         this.isAvailable = isAvailable;
         this.maxConcurrentCalls = maxConcurrentCalls;
+        this.currentCalls = currentCalls;
+        this.lastAvailableChange = lastAvailableChange;
 
         this.specialties = new ArrayList<>();
     }
@@ -46,7 +54,7 @@ public class Volunteer {
         return currentCalls;
     }
 
-    public String getLastAvailableChange(){
+    public LocalDate getLastAvailableChange(){
         return lastAvailableChange;
     }
 
