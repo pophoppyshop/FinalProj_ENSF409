@@ -156,10 +156,10 @@ public class CallManager implements Observer{
         callList.clear(); 
         
         try { 
-        	// Prepare statement to extract all calls
+        	// Prepare statement to extract all calls and callers
 			Connection conn = DatabaseManager.getConnection(); 
 			
-			String sql = "SELECT c.*, ca.PhoneNumber, ca.IsAnonymous, ca.LastContactDate, ca.Notes AS CallerNotes " +
+			String sql = "SELECT c.*, ca.CallerID, ca.PhoneNumber, ca.IsAnonymous, ca.LastContactDate, ca.Notes AS CallerNotes " +
 			"FROM CrisisCalls c " + "JOIN Callers ca ON c.CallerID = ca.CallerID";
 			
 			Statement statement = conn.createStatement(); 
@@ -182,8 +182,9 @@ public class CallManager implements Observer{
 				); 
 			    
 				// Timestamp to date + time 
-				java.sql.Timestamp ts = rs.getTimestamp("CallTime"); 
+				Timestamp ts = rs.getTimestamp("CallTime"); 
 				
+				// Convert SQL Interval to Duration
 				Duration interval = (Duration) rs.getObject("CallDuration");
 			
 				// Create call
