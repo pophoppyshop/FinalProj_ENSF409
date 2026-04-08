@@ -11,7 +11,7 @@ public class MainProgram {
 	
 	public static void main(String[] args) {
 		scanner = new Scanner(System.in);
-		
+
 		// Ask for login information until a database connection is made
 		while (true) {
 			System.out.println("Please enter the username for the database: ");
@@ -28,6 +28,8 @@ public class MainProgram {
 			}
 		}
 		
+		DatabaseManager.updateObservers();
+		
 		// Main loop
 		mainLoop:
 		while (true) {
@@ -39,12 +41,12 @@ public class MainProgram {
 					+ "(4) Generate Report");
 			
 			String userInput = scanner.nextLine();
+			DatabaseManager.countAction();
 			
 			// Check input option
 			switch (userInput) {
 				case "1":
 					manageCall();
-					
 					break;
 				
 				case "2":
@@ -87,6 +89,8 @@ public class MainProgram {
 			
 			String userInput = scanner.nextLine();
 			
+			DatabaseManager.countAction();
+			
 			// Check input option
 			switch (userInput) {
 				case "1":
@@ -95,6 +99,8 @@ public class MainProgram {
 							+ "Enter anything else to go back:");
 					userInput = scanner.nextLine();
 					userInput = userInput.toLowerCase();	// normalize input
+					
+					DatabaseManager.countAction();
 					
 					switch (userInput) {
 						case "u":{
@@ -109,6 +115,8 @@ public class MainProgram {
 									"From the above, select a number to filter by the respective urgency level:");
 							userInput = scanner.nextLine();
 							
+							DatabaseManager.countAction();
+							
 							// Filter by urgency strategy and print each call info
 							int urgency = Integer.parseInt(userInput);
 							List<CrisisCall> results = CallManager.filter(new FilterByUrgencyStrategy(urgency));
@@ -122,6 +130,8 @@ public class MainProgram {
 									"Calls are either 'pending', 'active', 'resolved', or 'escalated'. "
 									+ "Please enter a valid status to filter by:");
 							userInput = scanner.nextLine();
+							
+							DatabaseManager.countAction();
 							
 							// Filter by status and print each call info
 							List<CrisisCall> results = CallManager.filter(new FilterByStatusStrategy(userInput));
@@ -147,6 +157,8 @@ public class MainProgram {
                     System.out.println("\nEnter caller phone number (XXX-XXX-XXXX):");
                     String phone = scanner.nextLine();
                     
+                    DatabaseManager.countAction();
+                    
                     // Check if phone format is correct
                     if (!CallManager.isPhoneFormat(phone)) {
                     	System.out.println("Invalid phone format!");
@@ -157,6 +169,8 @@ public class MainProgram {
                     System.out.println("Is the caller anonymous? (yes or no):");
 					String input = scanner.nextLine().toLowerCase();
 					boolean isAnonymous = input.equals("true") || input.equals("yes");
+					
+					DatabaseManager.countAction();
 
 					// Create new caller object
                     Caller caller = new Caller (
@@ -171,8 +185,12 @@ public class MainProgram {
                     System.out.println("Enter urgency level (1-5):");
                     int urgency = Integer.parseInt(scanner.nextLine());
                     
+                    DatabaseManager.countAction();
+                    
                     System.out.println("Enter notes:");
                     String notes = scanner.nextLine();
+                    
+                    DatabaseManager.countAction();
 
                     // Create new call object
                     CrisisCall newCall = new CrisisCall(
@@ -196,6 +214,9 @@ public class MainProgram {
 					// TODO Modify call details (triggers rescheduling if urgency updates)
 					System.out.println("\nEnter call ID:");
                     int ID = Integer.parseInt(scanner.nextLine());
+                    
+                    DatabaseManager.countAction();
+                    
                     CrisisCall newCall;
                     
                     try {
@@ -210,12 +231,18 @@ public class MainProgram {
                     // Get updated information
 					System.out.println("Enter new urgency level (1-5):");
 					int newUrgency = Integer.parseInt(scanner.nextLine());
+					
+					DatabaseManager.countAction();
 
 					System.out.println("Enter new notes:");
 					String newNotes = scanner.nextLine();
 					
+					DatabaseManager.countAction();
+					
 					System.out.println("Enter updated call duration (mins):");
 					double callDuration = Double.parseDouble(scanner.nextLine());
+					
+					DatabaseManager.countAction();
 
 					// Update urgency and notes 
 					newCall.setUrgencyLevel(newUrgency);
@@ -231,9 +258,13 @@ public class MainProgram {
                     System.out.println("\nEnter call ID:");
                     int ID = Integer.parseInt(scanner.nextLine());
                     
+                    DatabaseManager.countAction();
+                    
                     // Get updated status
                     System.out.println("Enter new status (Pending/Active/Resolved/Escalated)");
                     String status = scanner.nextLine();
+                    
+                    DatabaseManager.countAction();
                     
                     // Updating
                     try {
@@ -266,6 +297,8 @@ public class MainProgram {
 			
 			String userInput = scanner.nextLine();
 			
+			DatabaseManager.countAction();
+			
 			// Check input option
 			switch (userInput) {
 				case "1":	
@@ -276,11 +309,15 @@ public class MainProgram {
 					userInput = scanner.nextLine();
 					userInput = userInput.toLowerCase();	// normalize input
 					
+					DatabaseManager.countAction();
+					
 					switch (userInput) {
 						// Filter by specialty
 						case "s":{
 							System.out.println("Enter specialty name:");
 							String special = scanner.nextLine();
+							
+							DatabaseManager.countAction();
 							
 							// Use filter strategy
 							List<Volunteer> results = VolunteerManager.filter(new FilterBySpecialtyStrategy(special));
@@ -291,6 +328,9 @@ public class MainProgram {
 						case "a":{
 							System.out.println("Enter availability (Yes|No):");
 							String input = scanner.nextLine();
+							
+							DatabaseManager.countAction();
+							
 							boolean availability = input.equalsIgnoreCase("True") || input.equalsIgnoreCase("Yes");
 							
 							// Use filter strategy
@@ -315,10 +355,14 @@ public class MainProgram {
 					System.out.println("Enter volunteer index:");
 					int index = Integer.parseInt(scanner.nextLine());
 					
+					DatabaseManager.countAction();
+					
 					// Update availability
 					System.out.println("Is volunteer available? (yes/no):");
 					String input = scanner.nextLine();
 					boolean newAvailability = input.equalsIgnoreCase("True") || input.equalsIgnoreCase("Yes");
+					
+					DatabaseManager.countAction();
 					
 					try {
 						VolunteerManager.getVolunteer(index).setAvailability(newAvailability);
@@ -349,6 +393,8 @@ public class MainProgram {
 					"(2) Assign smallest available counselor workload");
 			
 			String userInput = scanner.nextLine();
+			
+			DatabaseManager.countAction();
 			
 			switch (userInput) {
 				case "1":{
