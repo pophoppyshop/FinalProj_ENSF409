@@ -6,6 +6,7 @@ import java.sql.*;
 public class DatabaseManager {
 	private static List<Observer> observers = new ArrayList<Observer>();
 	private static Connection dbConnect;
+	private static int actionCount = 0;
 	
 	private DatabaseManager() {}
 	
@@ -29,7 +30,9 @@ public class DatabaseManager {
 	
 	public static boolean initializeConnection(String username, String password) {
 		try {
+			// Add managers to observer
 			addObserver(CallManager.getInstance());
+			addObserver(VolunteerManager.getInstance());
 			
 			dbConnect = DriverManager.getConnection("jdbc:postgresql://localhost/pets", username, password);
 		} catch (SQLException e) {
@@ -53,5 +56,19 @@ public class DatabaseManager {
 	
 	public static Connection getConnection() {
 		return dbConnect;
+	}
+	
+	public static void countAction() { 
+		// Count each user interaction
+		actionCount++; 
+		
+		// Update from database every 3 interactions
+		if (actionCount == 3) {
+			updateObservers(); 
+			
+			System.out.println("System auto-updated from database.");
+			
+			actionCount = 0;
+		} 
 	}
 }
