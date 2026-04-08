@@ -4,7 +4,6 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 public class VolunteerTest {
     //specialty information
@@ -48,7 +47,7 @@ public class VolunteerTest {
 
     @Test
     public void testGetAvailability(){
-        assertEquals("Volunteer should have availability status", expectedIsAvailable, volunteer.getAvaliability());
+        assertEquals("Volunteer should have availability status", expectedIsAvailable, volunteer.getAvailability());
     }
 
     @Test
@@ -69,6 +68,7 @@ public class VolunteerTest {
     @Test
     public void testAddSpecialty(){
         String expectedAddedSpecialty = "suicide prevention";
-        assertEquals("Specialty should be added", expectedAddedSpecialty, volunteer.addSpecialty("suicide prevention"));
+        volunteer.addSpecialty(expectedSpecialty);
+        assertEquals("Specialty should be added", expectedAddedSpecialty, volunteer.getSpecialties());
     }
 }

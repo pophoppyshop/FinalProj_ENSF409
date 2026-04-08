@@ -17,6 +17,7 @@ public class ReportManagerTest {
     private int expectedPending;
     private int expectedResolved;
     private int expectedEscalated;
+    private LocalDate date = LocalDate.of(2026,04,06);
 
     // shared objects
     private Caller caller;
@@ -27,7 +28,7 @@ public class ReportManagerTest {
 
         // Setup caller
         notes = new StringBuilder("Test notes");
-        caller = new Caller("111-1111", true, "2026-04-05", notes);
+        caller = new Caller(4, "111-1111", true, date, notes);
 
         // Setup date
         testDate = LocalDate.of(2026, 4, 5);
