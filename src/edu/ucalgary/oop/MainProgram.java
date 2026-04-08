@@ -107,7 +107,7 @@ public class MainProgram {
 							// Show urgency levels
 							System.out.println(
 									"\n" +
-									"5 - Suicide risk\n" +
+									"5 - Suicide Risk\n" +
 									"4 - Domestic Violence\n" +
 									"3 - Substance Abuse\n" +
 									"2 - Depression\n" +
@@ -178,7 +178,7 @@ public class MainProgram {
                         phone,
                         isAnonymous,
                         LocalDate.now(),
-                        new StringBuilder("N/A")
+                        "N/A"
                     );
                     
                     // Get call info
@@ -399,19 +399,12 @@ public class MainProgram {
 			switch (userInput) {
 				case "1":{
 					// Assign calls based on highest urgency
-					List<CrisisCall> calls = CallManager.getCallList();
-					List<Volunteer> volunteers = VolunteerManager.getVolunteers();
-					
-					calls = ScheduleManager.prioritize(calls);
-					ScheduleManager.assign(calls, volunteers);
+					ScheduleManager.schedule(new ScheduleByUrgencyStrategy(VolunteerManager.getVolunteers()));
 					break;}
 					
 				case "2":{
 					// Assign calls based on smaller available workload
-					List<CrisisCall> calls = CallManager.getCallList();
-					List<Volunteer> volunteers = VolunteerManager.getVolunteers();
-					
-					ScheduleManager.assign(calls, volunteers);
+					ScheduleManager.schedule(new ScheduleByWorkloadStrategy(VolunteerManager.getVolunteers()));
 					break;}
 				
 				case "0":
