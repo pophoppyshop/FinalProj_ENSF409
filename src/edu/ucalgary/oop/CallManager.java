@@ -18,6 +18,26 @@ public class CallManager implements Observer{
 	
 	public static void addCall(CrisisCall call) {
 		callList.add(call);
+
+		try{
+			Connection conn = DatabaseManager.getConnection();
+
+			String sql = 
+				"INSERT INTO \"CrisisCalls\" (\"CallerID\", \"CallTime\", \"IssueID\", \"UrgencyLevel\", \"Status\", \"Notes\") " +
+				"VALUES (?, ?, ?, ?, ?, ?)";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, call.getCaller().getCallerID());
+			stmt.setTimestamp(2, Timestamp.valueOf(call.getCallDate().atTime(call.getCallTime())
+			));
+			stmt.setInt(3, call.getIssueID());
+			stmt.setInt(4, call.getUrgencyLevel());
+			stmt.setString(5, call.getStatus());
+			stmt.setString(6, call.getNotes());
+			stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e){
+			System.out.println("Error adding call: " + e.getMessage());
+		}
 	}
 	
 	public static boolean isPhoneFormat(String phoneNumber) {
@@ -49,18 +69,52 @@ public class CallManager implements Observer{
 		callList.set(callList.indexOf(oldCall), newCall);
 		
 		System.out.println("Call details successfully updated.");
-		// TODO: update database
+		try{
+			Connection conn = DatabaseManager.getConnection();
+
+			String sql = 
+				"UPDATE \"CrisisCalls\" SET \"UrgencyLevel\"=?, \"Notes\"=?, \"CallDuration\"=? " +
+				"WHERE \"CallID\"=?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, newCall.getUrgencyLevel());
+			stmt.setString(2, newCall.getNotes());
+			stmt.setObject(3, Duration.ofMinutes((long)newCall.getCallDuration()));
+			stmt.setInt(4, newCall.getCallID());
+			
+			stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e){
+			System.out.println("Error updating call: " + e.getMessage());
+		}
 	}
 	
 	public static void updateStatus(CrisisCall call, String status) throws IllegalArgumentException{
 		// Set status only if it's valid
+		boolean valid = false;
 		for (String validStatus : ALL_STATUSES) {
 			if (validStatus.equalsIgnoreCase(status)) {
 				call.setStatus(validStatus);
+				valid = true;
+				break;
 			}
 		}
-		
-		throw new IllegalArgumentException("Invalid status!");
+		if (!valid){
+		throw new IllegalArgumentException("Invalid status!");}
+		try{
+			Connection conn = DatabaseManager.getConnection();
+
+			String sql = 
+				"UPDATE \"CrisisCalls\" SET \"Status\"=? WHERE \"CallID\"=?";
+
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, call.getStatus());
+			stmt.setInt(2, call.getCallID());
+			
+			stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e){
+			System.out.println("Error updating status: " + e.getMessage());
+		}
 	}
 	
 	public static List<CrisisCall> getCallList() {
@@ -160,7 +214,7 @@ public class CallManager implements Observer{
 			Connection conn = DatabaseManager.getConnection(); 
 			
 			String sql = "SELECT c.*, ca.PhoneNumber, ca.IsAnonymous, ca.LastContactDate, ca.Notes AS CallerNotes " +
-			"FROM CrisisCalls c " + "JOIN Callers ca ON c.CallerID = ca.CallerID";
+			"FROM \"CrisisCalls\" c " + "JOIN \"Callers\" ca ON c.\"CallerID\" = ca.\"CallerID\"";
 			
 			Statement statement = conn.createStatement(); 
 			
@@ -190,6 +244,7 @@ public class CallManager implements Observer{
 				// Create call
 				CrisisCall call = new CrisisCall(
 					rs.getInt("CallID"),
+					rs.getInt("IssueID"),
 					rs.getString("Status"), 
 					rs.getInt("UrgencyLevel"), 
 					ts.toLocalDateTime().toLocalTime(), 
