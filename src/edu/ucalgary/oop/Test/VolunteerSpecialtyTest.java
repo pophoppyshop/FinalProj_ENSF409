@@ -3,21 +3,23 @@ package edu.ucalgary.oop;
 import org.junit.*;
 import static org.junit.Assert.*;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 public class VolunteerSpecialtyTest {
     private String expectedSpecialtyName = "trauma counseling";
     private String expectedSpecialtyDescription = "expertise with counseling individuals experiencing trauma";
     private LocalDate expectedCertificationDateValid = LocalDate.now();
-    private LocalDate expectedCertificationDateInvalid = LocalDate.now().minusyears(3);
-    private LocalDate expiryValid = expectedCertificationDateValid.plusYears(2);
-    privateLocalDate expiryInvalid = expectedCertificationDateInvalid.plusYears(2);
+    private LocalDate expectedCertificationDateInvalid = LocalDate.now().minusYears(3);
+    //private LocalDate expiryValid = expectedCertificationDateValid.plusYears(2);
+    //private LocalDate expiryInvalid = expectedCertificationDateInvalid.plusYears(2);
+
+    private VolunteerSpecialty volunteerSpecialtyValid;
+    private VolunteerSpecialty volunteerSpecialtyInvalid;
 
 
     @Before
     public void setUp(){
-        volunteerSpecialtyValid = new volunteerSpecialty(expectedSpecialtyName, expectedSpecialtyDescription, expectedCertificationDateValid);
-        volunteerSpecialtyInvalid = new volunteerSpecialty(expectedSpecialtyName, expectedSpecialtyDescription, expectedCertificationDateInvalid);
+        volunteerSpecialtyValid = new VolunteerSpecialty(expectedSpecialtyName, expectedSpecialtyDescription, expectedCertificationDateValid);
+        volunteerSpecialtyInvalid = new VolunteerSpecialty(expectedSpecialtyName, expectedSpecialtyDescription, expectedCertificationDateInvalid);
     }
 
     @Test
@@ -26,13 +28,13 @@ public class VolunteerSpecialtyTest {
     }
 
     @Test
-    public void testGetCertificationDate(){
-        assertEquals("Volunteer certification has date it was recieved", expectedCertificationDate, volunteerSpecialtyValid.getCertificationDate());
+    public void testGetCertificationDateValid(){
+        assertEquals("Volunteer certification has date it was recieved", expectedCertificationDateValid, volunteerSpecialtyValid.getCertificationDate());
     }
 
     @Test
-    public void testGetCertificationExpiryDateValid(){
-        assertEquals("Volunteer certification has an expiry date", expectedCertificationExpiryDateValid, volunteerSpecialtyValid.getCertificationExpiryDate());
+    public void testGetCertificationExpiryDateInvalid(){
+        assertEquals("Volunteer certification has an expiry date", expectedCertificationDateInvalid, volunteerSpecialtyValid.getCertificationExpiryDate());
     }
 
     @Test
@@ -43,12 +45,12 @@ public class VolunteerSpecialtyTest {
     @Test
     public void testValidCertification(){
         boolean expectedIsValid = true;
-        volunteerSpecialtyValid.isCertificationValid();
+        assertEquals("Certification should be valid", expectedIsValid, volunteerSpecialtyValid.isCertificationValid());
     }
 
     @Test
     public void testInvalidCertification() throws Exception{
         boolean expectedIsValid = false;
-        volunteerSpecialtyInvalid.isCertificationValid();
+        assertEquals("Certification should be invalid", expectedIsValid, volunteerSpecialtyInvalid.isCertificationValid());
     }
 }
