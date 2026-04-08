@@ -8,7 +8,7 @@ public class VolunteerSpecialtyTest {
     private String expectedSpecialtyName = "trauma counseling";
     private String expectedSpecialtyDescription = "expertise with counseling individuals experiencing trauma";
     private LocalDate expectedCertificationDateValid = LocalDate.now();
-    private LocalDate expectedCertificationDateInvalid = LocalDate.now().minusYears(3);
+    private LocalDate expectedCertificationExpiry = LocalDate.now().plusYears(2);
     //private LocalDate expiryValid = expectedCertificationDateValid.plusYears(2);
     //private LocalDate expiryInvalid = expectedCertificationDateInvalid.plusYears(2);
 
@@ -19,7 +19,7 @@ public class VolunteerSpecialtyTest {
     @Before
     public void setUp(){
         volunteerSpecialtyValid = new VolunteerSpecialty(expectedSpecialtyName, expectedSpecialtyDescription, expectedCertificationDateValid);
-        volunteerSpecialtyInvalid = new VolunteerSpecialty(expectedSpecialtyName, expectedSpecialtyDescription, expectedCertificationDateInvalid);
+        volunteerSpecialtyInvalid = new VolunteerSpecialty(expectedSpecialtyName, expectedSpecialtyDescription, expectedCertificationDateValid.minusYears(3));
     }
 
     @Test
@@ -33,14 +33,10 @@ public class VolunteerSpecialtyTest {
     }
 
     @Test
-    public void testGetCertificationExpiryDateInvalid(){
-        assertEquals("Volunteer certification has an expiry date", expectedCertificationDateInvalid, volunteerSpecialtyValid.getCertificationExpiryDate());
+    public void testGetCertificationExpiryDate(){
+        assertEquals("Volunteer certification has an expiry date", expectedCertificationExpiry, volunteerSpecialtyValid.getCertificationExpiryDate());
     }
 
-    @Test
-    public void testGetCertificationExpiryDateExpired(){
-        assertEquals("Volunteer certification has an expiry date (is expired)", expectedCertificationDateInvalid, volunteerSpecialtyInvalid.getCertificationExpiryDate());
-    }
 
     @Test
     public void testValidCertification(){

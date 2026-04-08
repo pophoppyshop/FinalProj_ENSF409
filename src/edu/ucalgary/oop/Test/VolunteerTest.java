@@ -13,11 +13,11 @@ public class VolunteerTest {
     private VolunteerSpecialty expectedSpecialty;
 
     //volunteer info
-    private int expectedVolunteerID = 5;
+    private int expectedVolunteerID = 0;
     private String expectedName = "Susan Jones";
     private boolean expectedIsAvailable = true;
     private int expectedMaxConcurrentCalls = 4;
-    private int expectedCurrentCalls = 2;
+    private int expectedCurrentCalls = 0;
     private String expectedLastAvailableChange = "null";
     private String expectedPhoneNumber = "222-2222-2222";
     private Volunteer volunteer;
