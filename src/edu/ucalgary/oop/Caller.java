@@ -7,18 +7,18 @@ public class Caller {
 	private String phoneNumber;
 	private boolean isAnonymous;
 	private LocalDate lastContactDate;
-	private StringBuilder notes;
+	private String notes;
 	
 	public Caller(Caller caller) {
 		callerID = caller.callerID;
 		phoneNumber = caller.phoneNumber;
 		isAnonymous = caller.isAnonymous;
 		lastContactDate = caller.lastContactDate;
-		notes = new StringBuilder(caller.notes);
+		notes = caller.notes;
 	}
 	
 	public Caller(int callerID, String phoneNumber, boolean isAnonymous, LocalDate lastContactDate,
-			StringBuilder notes) {
+			String notes) {
 		// Normalize phone number
 		String phoneRegex = "^(\\d{3})[\\s.-_,]*(\\d{3})[\\s.-_,]*(\\d{4})$";
 		String replacement = "$1-$2-$3";
