@@ -11,6 +11,8 @@ public class ScheduleManagerTest {
     private List<CrisisCall> calls;
     private List<Volunteer> volunteers;
 
+    private LocalDate date = LocalDate.of(2026,04,05);
+
     // expected values
     private int highestUrgency;
     private int secondUrgency;
@@ -31,7 +33,7 @@ public class ScheduleManagerTest {
 
         // setup caller
         notes = new StringBuilder("Test notes");
-        caller = new Caller("111-1111", true, "2026-04-05", notes);
+        caller = new Caller(4,"111-1111", true, date, notes);
 
         // setup calls
         calls = new ArrayList<>();

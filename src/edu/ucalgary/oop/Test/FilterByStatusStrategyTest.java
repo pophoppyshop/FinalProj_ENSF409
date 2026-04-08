@@ -14,17 +14,19 @@ public class FilterByStatusStrategyTest {
 
     // expected values
     private int expectedCount;
+    private LocalDate date = LocalDate.of(2026,04,06);
 
     // shared test data
     private Caller caller;
     private StringBuilder notes;
+    
 
     @Before
     public void setUp() {
 
         // caller setup
         notes = new StringBuilder("Test notes");
-        caller = new Caller("111-1111", true, "2026-04-05", notes);
+        caller = new Caller(4, "111-1111", true, date, notes);
 
         // create calls list
         calls = new ArrayList<>();

@@ -10,6 +10,7 @@ public class FilterByUrgencyStrategyTest {
 
     private List<CrisisCall> calls;
     private FilterByUrgencyStrategy strategy;
+    private LocalDate date = LocalDate.of(2026,04,06);
 
     // expected values
     private int expectedCount;
@@ -24,7 +25,7 @@ public class FilterByUrgencyStrategyTest {
 
         // setup caller
         notes = new StringBuilder("Test notes");
-        caller = new Caller("111-1111", true, "2026-04-05", notes);
+        caller = new Caller(4, "111-1111", true, date, notes);
 
         // setup calls
         calls = new ArrayList<>();
