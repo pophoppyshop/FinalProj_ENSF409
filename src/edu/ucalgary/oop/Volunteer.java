@@ -14,12 +14,13 @@ public class Volunteer {
     private String phoneNumber;
     private List<VolunteerSpecialty> specialties;
 
-    public Volunteer(String name, String phoneNumber, boolean isAvailable, int maxConcurrentCalls, 
+    public Volunteer(int volunteerID, String name, String phoneNumber, boolean isAvailable, int maxConcurrentCalls, 
     		LocalDate lastAvailableChange, int currentCalls){
     	// Normalize phone number
     	String phoneRegex = "^(\\d{3})[\\s.-_,]*(\\d{3})[\\s.-_,]*(\\d{4})$";
 		String replacement = "$1-$2-$3";
     	
+		this.volunteerID = volunteerID;
         this.name = name;
         this.phoneNumber = phoneNumber.replaceAll(phoneRegex, replacement);
         this.isAvailable = isAvailable;
@@ -59,6 +60,11 @@ public class Volunteer {
     }
 
     public void setAvailability(boolean isAvailable){
+    	// If availability changes, update lastAvaiableChange
+    	if (this.isAvailable != isAvailable) {
+    		lastAvailableChange = LocalDate.now();
+    	}
+    	
         this.isAvailable = isAvailable;
     }
 
