@@ -59,6 +59,11 @@ public class Volunteer {
     }
 
     public void setAvailability(boolean isAvailable){
+    	// If availability changes, update lastAvaiableChange
+    	if (this.isAvailable != isAvailable) {
+    		lastAvailableChange = LocalDate.now();
+    	}
+    	
         this.isAvailable = isAvailable;
     }
 
