@@ -71,7 +71,7 @@ public class VolunteerManager implements Observer{
 			Connection conn = DatabaseManager.getConnection(); 
 			
 			String sql = "SELECT v.*, vs.CertificationDate, s.SpecialtyName, s.Description " +
-			"FROM Volunteers v " + "JOIN VolunteerSpecialties vs ON v.VolunteerID = vs.VolunteerID " + 
+			"FROM \"Volunteers\" v " + "JOIN VolunteerSpecialties vs ON v.VolunteerID = vs.VolunteerID " + 
 			"JOIN Specialties s ON s.SpecialtyID = vs.SpecialtyID";
 			
 			Statement statement = conn.createStatement(); 
