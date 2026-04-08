@@ -62,7 +62,8 @@ public class CallManager implements Observer{
 		}
 		
 		if (oldCall.getUrgencyLevel() != newCall.getUrgencyLevel()) {
-			// TODO: If urgency level changes, trigger rescheduling using ScheduleManager
+			// Trigger rescheduling
+			ScheduleManager.schedule(new ScheduleByUrgencyStrategy(VolunteerManager.getVolunteers()));
 		}
 		
 		// Replace old call with new call
