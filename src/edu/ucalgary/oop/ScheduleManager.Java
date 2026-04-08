@@ -21,7 +21,8 @@ public class ScheduleManager{
     
 	public static boolean specialtyMatch(CrisisCall call, Volunteer v) {
 		List<VolunteerSpecialty> specialties = v.getSpecialties();
-		
+
+		// Match with preset specialties
 		switch(call.getUrgencyLevel()) {
 			case 1:
 				return specialtyInVolunteer(specialties, "General Support");
