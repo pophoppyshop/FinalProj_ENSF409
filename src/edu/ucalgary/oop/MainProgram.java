@@ -182,6 +182,15 @@ public class MainProgram {
                     );
                     
                     // Get call info
+					System.out.println("Select issue type:");
+					System.out.println("1 - Suicide Risk");
+					System.out.println("2 - Domestic Violence");
+					System.out.println("3 - Mental Health Crisis");
+					System.out.println("4 - Substance Abuse");
+					System.out.println("5 - General Support");
+					
+					int issueID = Integer.parseInt(scanner.nextLine());
+
                     System.out.println("Enter urgency level (1-5):");
                     int urgency = Integer.parseInt(scanner.nextLine());
                     
@@ -195,6 +204,7 @@ public class MainProgram {
                     // Create new call object
                     CrisisCall newCall = new CrisisCall(
                     	CallManager.generateUniqueCallID(),
+						issueID,
                         "Pending",
                         urgency,
                         LocalTime.now(),

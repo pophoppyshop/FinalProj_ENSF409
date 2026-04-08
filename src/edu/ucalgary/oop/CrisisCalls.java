@@ -6,6 +6,7 @@ import java.util.*;
 public class CrisisCall{
 	private int callID;
 	private String status;
+	private int issueID;
 	private int urgencyLevel;
 	private LocalTime callTime;
 	private LocalDate callDate;
@@ -15,6 +16,7 @@ public class CrisisCall{
 	
 	public CrisisCall(CrisisCall call) {
 		callID = call.callID;
+		issueID = call.issueID;
 		status = call.status;
 		urgencyLevel = call.urgencyLevel;
 		callTime = call.callTime;
@@ -24,9 +26,10 @@ public class CrisisCall{
 		caller = new Caller(call.getCaller());
 	}
 	
-	public CrisisCall(int callID, String status, int urgencyLevel, LocalTime callTime, LocalDate callDate, 
+	public CrisisCall(int callID, int issueID, String status, int urgencyLevel, LocalTime callTime, LocalDate callDate, 
 			double callDuration, String notes, Caller caller) {
 		this.callID = callID;
+		this.issueID = issueID;
 		this.status = status;
 		this.urgencyLevel = urgencyLevel;
 		this.callTime = callTime;
@@ -38,6 +41,10 @@ public class CrisisCall{
 	
 	public int getCallID() {
 		return callID;
+	}
+	
+	public int getIssueID() {
+    return issueID;
 	}
 	
 	public String getStatus() {
@@ -70,6 +77,10 @@ public class CrisisCall{
 	
 	public void setCallID(int callID) {
 		this.callID = callID;
+	}
+	
+	public void setIssueID(int issueID) {
+    this.issueID = issueID;
 	}
 	
 	public void setStatus(String status) {
