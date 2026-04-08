@@ -178,7 +178,7 @@ public class CallManager implements Observer{
 				    rs.getString("PhoneNumber"), 
 				    rs.getBoolean("IsAnonymous"), 
 				    lastContactDate, 
-				    new StringBuilder(rs.getString("CallerNotes"))
+				    rs.getString("CallerNotes")
 				); 
 			    
 				// Timestamp to date + time 
