@@ -1,9 +1,7 @@
 package edu.ucalgary.oop;
 
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.time.*;
-import java.util.ArrayList;
 
 
 public class MainProgram {
@@ -54,7 +52,6 @@ public class MainProgram {
 					break;
 					
 				case "3":
-					// TODO scheduling
 					scheduling();
 					break;
 					
@@ -190,6 +187,13 @@ public class MainProgram {
 					System.out.println("5 - General Support");
 					
 					int issueID = Integer.parseInt(scanner.nextLine());
+					
+					// Break if issue id is out of range
+					if (issueID < 1 || issueID > 5) {
+						System.out.println("Invalid issue ID!");
+						
+						break;
+					}
 
                     System.out.println("Enter urgency level (1-5):");
                     int urgency = Integer.parseInt(scanner.nextLine());
@@ -221,7 +225,7 @@ public class MainProgram {
 					break;}
 					
 				case "3":{
-					// TODO Modify call details (triggers rescheduling if urgency updates)
+					// Get the call ID
 					System.out.println("\nEnter call ID:");
                     int ID = Integer.parseInt(scanner.nextLine());
                     
