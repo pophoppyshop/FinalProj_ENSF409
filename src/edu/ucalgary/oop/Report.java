@@ -19,6 +19,7 @@ public class Report {
     public String formatReport() {
         StringBuilder sb = new StringBuilder();
 
+        // Add the types of calls and report date to the string builder
         sb.append("Report Date: ").append(date).append("\n");
         sb.append("Total Calls: ").append(getTotalCalls()).append("\n");
         sb.append("Resolved Calls: ").append(getResolvedCount()).append("\n");
@@ -30,6 +31,8 @@ public class Report {
 
     public List<CrisisCall> getPendingCalls() {
         List<CrisisCall> result = new ArrayList<>();
+        
+        // Add call object if it is pending
         for (CrisisCall call : callList) {
             if (call.getStatus().equalsIgnoreCase("PENDING")) {
                 result.add(call);
@@ -40,6 +43,8 @@ public class Report {
 
     public List<CrisisCall> getResolvedCalls() {
         List<CrisisCall> result = new ArrayList<>();
+        
+        // Add call object if it is resolved
         for (CrisisCall call : callList) {
             if (call.getStatus().equalsIgnoreCase("RESOLVED")) {
                 result.add(call);
@@ -50,6 +55,8 @@ public class Report {
 
     public List<CrisisCall> getEscalatedCalls() {
         List<CrisisCall> result = new ArrayList<>();
+        
+        // Add call object if it is escalated
         for (CrisisCall call : callList) {
             if (call.getStatus().equalsIgnoreCase("ESCALATED")) {
                 result.add(call);

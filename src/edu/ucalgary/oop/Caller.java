@@ -19,8 +19,12 @@ public class Caller {
 	
 	public Caller(int callerID, String phoneNumber, boolean isAnonymous, LocalDate lastContactDate,
 			StringBuilder notes) {
+		// Normalize phone number
+		String phoneRegex = "^(\\d{3})[\\s.-_,]*(\\d{3})[\\s.-_,]*(\\d{4})$";
+		String replacement = "$1-$2-$3";
+		
 		this.callerID = callerID;
-		this.phoneNumber = phoneNumber;
+		this.phoneNumber = phoneNumber.replaceAll(phoneRegex, replacement);
 		this.isAnonymous = isAnonymous;
 		this.lastContactDate = lastContactDate;
 		this.notes = notes;
