@@ -13,6 +13,7 @@ public class CrisisCall{
 	private double callDuration; // in minutes
 	private String notes;
 	private Caller caller;
+	private Volunteer currentVolunteer;
 	
 	public CrisisCall(CrisisCall call) {
 		callID = call.callID;
@@ -24,6 +25,7 @@ public class CrisisCall{
 		callDuration = call.callDuration;
 		notes = call.notes;
 		caller = new Caller(call.getCaller());
+		currentVolunteer = call.currentVolunteer;
 	}
 	
 	public CrisisCall(int callID, int issueID, String status, int urgencyLevel, LocalTime callTime, LocalDate callDate, 
@@ -37,6 +39,11 @@ public class CrisisCall{
 		this.callDuration = callDuration;
 		this.notes = notes;
 		this.caller = caller;
+		currentVolunteer = null;
+	}
+	
+	public Volunteer getCurrentVolunteer() {
+		return currentVolunteer;
 	}
 	
 	public int getCallID() {
@@ -73,6 +80,10 @@ public class CrisisCall{
 	
 	public Caller getCaller() {
 		return caller;
+	}
+	
+	public void setCurrentVolunteer(Volunteer newVolunteer) {
+		currentVolunteer = newVolunteer;
 	}
 	
 	public void setCallID(int callID) {

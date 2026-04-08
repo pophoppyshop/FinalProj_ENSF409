@@ -3,27 +3,12 @@ package edu.ucalgary.oop;
 import java.util.*;
 
 public class ScheduleManager{
- public static List<CrisisCall> prioritize(List<CrisisCall> calls) {
-        calls.sort((c1, c2) -> c2.getUrgencyLevel() - c1.getUrgencyLevel());
-        return calls;
-    }
-
-    public static void assign(List<CrisisCall> calls, List<Volunteer> volunteers) {
-    	// For every call
-        for (CrisisCall call : calls) {
-        	// For every volunteer
-            for (Volunteer v : volunteers) {
-            	// Assign if volunteer is available and workload is possible
-                if (v.getAvailability() && v.getCurrentCalls() < v.getMaxConcurrentCalls()) {
-                	
-                    System.out.println("Assigning call " + call.getCallID() + " to " + v.getName());
-                    v.setCurrentCalls(v.getCurrentCalls() + 1);
-                    
-                    break;
-                }
-            }
-        }
-    }
+	private ScheduleManager() {
+	}
+	
+	public static void schedule(Strategy<List <CrisisCall>, Object> strategy) {
+		strategy.execute(CallManager.getCallList());
+	}
 
     public static void escalate(List<CrisisCall> calls) {
     	// Escalate the call if urgency is max
@@ -33,6 +18,35 @@ public class ScheduleManager{
             }
         }
     }
+    
+	public static boolean specialtyMatch(CrisisCall call, Volunteer v) {
+		List<VolunteerSpecialty> specialties = v.getSpecialties();
 
-
+		// Match with preset specialties
+		switch(call.getUrgencyLevel()) {
+			case 1:
+				return specialtyInVolunteer(specialties, "General Support");
+			case 2:
+				return specialtyInVolunteer(specialties, "Depression");
+			case 3:
+				return specialtyInVolunteer(specialties, "Substance Abuse");
+			case 4:
+				return specialtyInVolunteer(specialties, "Domestic Violence");
+			case 5:
+				return specialtyInVolunteer(specialties, "Suicide Risk");
+		}
+		
+		return false;
+	}
+	
+	public static boolean specialtyInVolunteer(List<VolunteerSpecialty> specialties, String specialtyName) {
+		// Check if specialty name is in specialties
+		for (VolunteerSpecialty specialty : specialties) {
+			if (specialty.getSpecialtyName().equalsIgnoreCase(specialtyName)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }
