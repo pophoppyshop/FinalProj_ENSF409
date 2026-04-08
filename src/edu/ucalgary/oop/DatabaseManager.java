@@ -35,7 +35,6 @@ public class DatabaseManager {
 			
 			dbConnect = DriverManager.getConnection("jdbc:postgresql://localhost/example", username, password);
 		} catch (SQLException e) {
-			System.out.println("Invalid user/password!");
 			e.printStackTrace();
 			
 			return false;
