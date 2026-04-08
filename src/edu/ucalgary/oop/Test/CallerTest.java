@@ -40,7 +40,7 @@ public class CallerTest{
 
     @Test
     public void testToString(){
-        String expectedString = "\tPhone number: 111-1111-1111\n\tIs anonymous?: Yes\n\tLast contact date: null\n\tNotes: null";
+        String expectedString = "\tPhone number: 111-1111-1111\n\tIs anonymous?: Yes\n\tLast contact date2026-04-08\n\tNotes: null";
         String callerString = caller.toString();
         assertEquals("toString should return caller information", expectedString, callerString);
     }

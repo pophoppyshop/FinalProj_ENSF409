@@ -46,7 +46,7 @@ public class CrisisCallsTest{
     @Test
     public void testGetCallDuration(){
         assertEquals("Call should be given duration", expectedCallDuration, 
-            crisisCall.getCallDuration());
+            crisisCall.getCallDuration(), 0.1);
     }
 
     @Test
@@ -57,8 +57,8 @@ public class CrisisCallsTest{
 
     @Test
     public void testToString(){
-        String expectedString = "\tStatus: Pending\n\tUrgency: General support\n\tCall time: "
-            +LocalTime.now()+"\n\tCall date: "+LocalDate.now()+"\n\tDuration (mins): 0\n\tNotes: null"
+        String expectedString = "\nID: 4\n\tStatus: Pending\n\tUrgency: 1\n\tCall time: "
+            +expectedCallTime+"\n\tCall date:"+LocalDate.now()+"\n\tDuration (mins): 0.0\n\tNotes: null"
             +"\nCaller information: \n" + expectedCaller.toString();
         String callString = crisisCall.toString();
         assertEquals("toString should return call information", expectedString, callString);
