@@ -3,6 +3,8 @@ package edu.ucalgary.oop;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
+import java.util.Map;
+import java.util.HashMap;
 
 public class VolunteerManager implements Observer{
 	private static List<Volunteer> volunteers = new ArrayList<>();
@@ -68,41 +70,59 @@ public class VolunteerManager implements Observer{
         	// Prepare statement to extract all volunteers
 			Connection conn = DatabaseManager.getConnection(); 
 			
-			String sql = "SELECT v.*, vs.*, s.* " +
-			"FROM Volunteers v " + "JOIN VolunteerSpecialties vs ON v.VolunteerID = vs.VolunteerID" + 
-					"JOIN Specialties s ON s.SpecialtyID = vs.SpecialtyID";
+			String sql = "SELECT v.*, vs.CertificationDate, s.SpecialtyName, s.Description " +
+			"FROM Volunteers v " + "JOIN VolunteerSpecialties vs ON v.VolunteerID = vs.VolunteerID " + 
+			"JOIN Specialties s ON s.SpecialtyID = vs.SpecialtyID";
 			
 			Statement statement = conn.createStatement(); 
 			
 			// Execute statement
 			ResultSet rs = statement.executeQuery(sql); 
+
+			Map<Integer, Volunteer> volunteerMap = new HashMap<>();
 			
 			// Keep extracting until no more volunteer objects
 			while (rs.next()) { 
-				// Create volunteer specialty object
-				VolunteerSpecialty specialty = new VolunteerSpecialty(
-						rs.getString("SpecialtyName"),
-						rs.getString("Description"),
-						rs.getDate("CertificationDate").toLocalDate());
-				
-				// Skip if the phone number is not in the right format
-				if (!CallManager.isPhoneFormat(rs.getString("PhoneNumber"))) {
-					System.out.println("Invalid phone number format for " + rs.getString("Name"));
-					continue;
+				int volunteerID = rs.getInt("VolunteerID");
+				Volunteer volunteer = volunteerMap.get(volunteerID);
+
+				// Add new volunteer object into map
+				if (volunteer == null){
+					// Skip if the phone number is not in the right format
+					if (!CallManager.isPhoneFormat(rs.getString("PhoneNumber"))) {
+						System.out.println("Invalid phone number format for " + rs.getString("Name"));
+						continue;
+					}
+					
+					// Create volunteer object
+					volunteer = new Volunteer(
+							volunteerID,
+							rs.getString("Name"),
+							rs.getString("PhoneNumber"),
+							rs.getBoolean("IsAvailable"),
+							rs.getInt("MaxConcurrentCalls"),
+							rs.getTimestamp("LastAvailableChange").toLocalDateTime().toLocalDate(),
+							rs.getInt("CurrentCalls"));
+					
+					volunteerMap.put(volunteerID, volunteer);
 				}
 				
-				// Create volunteer object
-				Volunteer volunteer = new Volunteer(
-						rs.getString("Name"),
-						rs.getString("PhoneNumber"),
-						rs.getBoolean("IsAvailable"),
-						rs.getInt("MaxConcurrentCalls"),
-						rs.getTimestamp("LastAvailableChange").toLocalDateTime().toLocalDate(),
-						rs.getInt("CurrentCalls"));
+				if (volunteer != null){
+					// Create volunteer specialty object
+					VolunteerSpecialty specialty = new VolunteerSpecialty(
+							rs.getString("SpecialtyName"),
+							rs.getString("Description"),
+							rs.getDate("CertificationDate").toLocalDate());
+					volunteer.addSpecialty(specialty);
+				} 
 			}
 			
-        } catch (SQLException e) {
-        	
+			// Convert to arrayList
+			volunteers = new ArrayList<>(volunteerMap.values());
+			rs.close();
+			statement.close();
+		} catch (SQLException e) {
+        	System.out.println("Error updating volunteer: " + e.getMessage());
         }
 	}
 	
