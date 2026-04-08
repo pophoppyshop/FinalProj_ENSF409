@@ -21,7 +21,6 @@ public class DatabaseManager {
 	}
 	
 	public static void updateObservers() {
-		// TODO Get the information from database and update each observer with the information
 		// Update all observers
 		for (Observer observer : observers) {
 			observer.update();
