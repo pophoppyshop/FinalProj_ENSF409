@@ -159,7 +159,7 @@ public class CallManager implements Observer{
         	// Prepare statement to extract all calls and callers
 			Connection conn = DatabaseManager.getConnection(); 
 			
-			String sql = "SELECT c.*, ca.CallerID, ca.PhoneNumber, ca.IsAnonymous, ca.LastContactDate, ca.Notes AS CallerNotes " +
+			String sql = "SELECT c.*, ca.PhoneNumber, ca.IsAnonymous, ca.LastContactDate, ca.Notes AS CallerNotes " +
 			"FROM CrisisCalls c " + "JOIN Callers ca ON c.CallerID = ca.CallerID";
 			
 			Statement statement = conn.createStatement(); 
