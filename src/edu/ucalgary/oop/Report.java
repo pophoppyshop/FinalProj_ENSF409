@@ -26,12 +26,16 @@ public class Report {
         sb.append("Escalated Calls: ").append(getEscalatedCount()).append("\n");
         sb.append("Pending Calls: ").append(getPendingCount()).append("\n");
         
+        sb.append("\n------ All call information -----");
+        
         for (CrisisCall call : callList) {
-        	sb.append("\nCall information:").append(call).append("\n");
+        	sb.append(call).append("\n");
         }
         
+        sb.append("\n------ All volunteer information -----");
+        
         for (Volunteer volunteer : VolunteerManager.getVolunteers()) {
-        	sb.append("\nVolunteer information:").append(volunteer).append("\n");
+        	sb.append(volunteer).append("\n");
         }
 
         return sb.toString();
