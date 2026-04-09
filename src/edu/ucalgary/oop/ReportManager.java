@@ -39,7 +39,7 @@ public class ReportManager {
         String filename = "daily_log_" + report.getDate() + ".txt";
         
         // Attempt to write to the file
-        try (FileWriter writer = new FileWriter("data/" + filename)) {
+        try (FileWriter writer = new FileWriter("reports/" + filename)) {
             writer.write(report.formatReport());
             
             System.out.println("Report has been written to the file.");
