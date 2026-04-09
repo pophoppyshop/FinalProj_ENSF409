@@ -1,0 +1,61 @@
+Report Date: 2026-04-09
+Total Calls: 3
+Resolved Calls: 1
+Escalated Calls: 0
+Pending Calls: 2
+
+------ All call information -----
+ID: 1
+	Status: Pending
+	Urgency: 5
+	Call time: 14:55:43.858892
+	Call date: 2026-04-09
+	Duration (mins): 0.0
+	Notes: null
+Caller information: 
+	Phone number: 
+	Is anonymous?: Yes
+	Last contact date: null
+	Notes: null
+
+ID: 2
+	Status: Pending
+	Urgency: 3
+	Call time: 14:57:31.792985
+	Call date: 2026-04-09
+	Duration (mins): 0.0
+	Notes: uisduqw
+Caller information: 
+	Phone number: 123-234-3456
+	Is anonymous?: Yes
+	Last contact date: 2026-04-09
+	Notes: qweih
+
+ID: 3
+	Status: Resolved
+	Urgency: 5
+	Call time: 14:59:27.217880
+	Call date: 2026-04-09
+	Duration (mins): 0.0
+	Notes: NEW
+Caller information: 
+	Phone number: 234-215-6432
+	Is anonymous?: Yes
+	Last contact date: 2026-04-09
+	Notes: wiqjdijqwjiqw
+
+------ All volunteer information -----
+ID: 1
+	Name: Dr. Sarah Chen
+	Phone number: 232-555-1001
+	Is available: No
+	Max concurrent calls: 2
+	Number of current calls: 0
+	Last available change: 2026-04-09
+Specialty:
+	Specialty name: SUICIDE_PREVENTION
+	Specialty description: ASIST or similar training
+	Certificate expiry date: 2023-01-15
+	Specialty name: TRAUMA_COUNSELING
+	Specialty description: PTSD and complex trauma
+	Certificate expiry date: 2023-02-20
