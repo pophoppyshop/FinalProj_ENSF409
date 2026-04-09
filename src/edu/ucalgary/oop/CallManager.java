@@ -23,7 +23,7 @@ public class CallManager implements Observer{
 			Connection conn = DatabaseManager.getConnection();
 
 			String sql = 
-				"INSERT INTO \"CrisisCalls\" (\"CallerID\", \"CallTime\", \"IssueID\", \"UrgencyLevel\", \"Status\", \"Notes\") " +
+				"INSERT INTO CrisisCalls (CallerID, CallTime, IssueID, UrgencyLevel, Status, Notes) " +
 				"VALUES (?, ?, ?, ?, ?, ?)";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, call.getCaller().getCallerID());
@@ -42,7 +42,7 @@ public class CallManager implements Observer{
 	
 	public static boolean isPhoneFormat(String phoneNumber) {
 		// Compare phone number input with regex
-		String phoneRegex = "^(\\d{3})[\\s.-_,]*(\\d{3})[\\s.-_,]*(\\d{4})$";
+		String phoneRegex = "^(\\d{3})[\\s.-]?(\\d{3})[\\s.-]?(\\d{4})$";
 		
 		return phoneNumber.matches(phoneRegex);
 	}
@@ -74,8 +74,8 @@ public class CallManager implements Observer{
 			Connection conn = DatabaseManager.getConnection();
 
 			String sql = 
-				"UPDATE \"CrisisCalls\" SET \"UrgencyLevel\"=?, \"Notes\"=?, \"CallDuration\"=? " +
-				"WHERE \"CallID\"=?";
+				"UPDATE CrisisCalls SET UrgencyLevel=?, Notes=?, CallDuration=? " +
+				"WHERE CallID=?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, newCall.getUrgencyLevel());
 			stmt.setString(2, newCall.getNotes());
@@ -105,7 +105,7 @@ public class CallManager implements Observer{
 			Connection conn = DatabaseManager.getConnection();
 
 			String sql = 
-				"UPDATE \"CrisisCalls\" SET \"Status\"=? WHERE \"CallID\"=?";
+				"UPDATE CrisisCalls SET Status=? WHERE CallID=?";
 
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, call.getStatus());
@@ -215,7 +215,7 @@ public class CallManager implements Observer{
 			Connection conn = DatabaseManager.getConnection(); 
 			
 			String sql = "SELECT c.*, ca.PhoneNumber, ca.IsAnonymous, ca.LastContactDate, ca.Notes AS CallerNotes " +
-			"FROM \"CrisisCalls\" c " + "JOIN \"Callers\" ca ON c.\"CallerID\" = ca.\"CallerID\"";
+			"FROM CrisisCalls c " + "JOIN Callers ca ON c.CallerID = ca.CallerID";
 			
 			Statement statement = conn.createStatement(); 
 			
@@ -240,7 +240,17 @@ public class CallManager implements Observer{
 				Timestamp ts = rs.getTimestamp("CallTime"); 
 				
 				// Convert SQL Interval to Duration
-				Duration interval = (Duration) rs.getObject("CallDuration");
+				String interval = rs.getString("CallDuration");
+				
+				// Split it by a colon
+				String[] parts = interval.split(":");
+				
+				// Get hours, minutes, and seconds
+				double hours = Double.parseDouble(parts[0]);
+				double minutes = Double.parseDouble(parts[1]);
+				double seconds = Double.parseDouble(parts[2]);
+				
+				double totalMins = hours * 60.0 + minutes + seconds / 60.0;
 			
 				// Create call
 				CrisisCall call = new CrisisCall(
@@ -250,7 +260,7 @@ public class CallManager implements Observer{
 					rs.getInt("UrgencyLevel"), 
 					ts.toLocalDateTime().toLocalTime(), 
 					ts.toLocalDateTime().toLocalDate(), 
-					interval.toMinutes(), 
+					totalMins, 
 					rs.getString("Notes"), 
 					caller
 				); 
