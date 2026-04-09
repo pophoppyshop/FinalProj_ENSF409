@@ -33,9 +33,8 @@ public class DatabaseManager {
 			addObserver(CallManager.getInstance());
 			addObserver(VolunteerManager.getInstance());
 			
-			dbConnect = DriverManager.getConnection("jdbc:postgresql://localhost/pets", username, password);
+			dbConnect = DriverManager.getConnection("jdbc:postgresql://localhost/example", username, password);
 		} catch (SQLException e) {
-			System.out.println("Invalid user/password!");
 			e.printStackTrace();
 			
 			return false;
