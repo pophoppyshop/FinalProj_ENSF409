@@ -90,7 +90,7 @@ public class VolunteerManager implements Observer{
 				if (volunteer == null){
 					// Skip if the phone number is not in the right format
 					if (!CallManager.isPhoneFormat(rs.getString("PhoneNumber"))) {
-						System.out.println("Invalid phone number format for " + rs.getString("Name"));
+						System.out.println("Invalid phone number (" + rs.getString("PhoneNumber") + ") format for " + rs.getString("Name"));
 						continue;
 					}
 					
