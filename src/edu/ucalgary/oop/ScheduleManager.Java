@@ -8,6 +8,8 @@ public class ScheduleManager{
 	
 	public static void schedule(Strategy<List <CrisisCall>, Object> strategy) {
 		strategy.execute(CallManager.getCallList());
+		
+		System.out.println("Scheduling successful!");
 	}
 
     public static void escalate(List<CrisisCall> calls) {
