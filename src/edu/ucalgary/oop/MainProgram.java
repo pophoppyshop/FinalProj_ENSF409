@@ -366,8 +366,8 @@ public class MainProgram {
 					
 				case "2":
 					// Get index
-					System.out.println("Enter volunteer index:");
-					int index = Integer.parseInt(scanner.nextLine());
+					System.out.println("Enter volunteer ID:");
+					int id = Integer.parseInt(scanner.nextLine());
 					
 					DatabaseManager.countAction();
 					
@@ -379,14 +379,14 @@ public class MainProgram {
 					DatabaseManager.countAction();
 					
 					try {
-						Volunteer v = VolunteerManager.getVolunteer(index);
+						Volunteer v = VolunteerManager.getVolunteer(id);
 						v.setAvailability(newAvailability);
 						VolunteerManager.updateAvailability(v.getVolunteerID(), newAvailability);
 						System.out.println("Availability updated.");
 					} catch (IllegalArgumentException | IllegalStateException e) {
 						e.printStackTrace();
 						
-						return;
+						break;
 					}
 
 					break;
