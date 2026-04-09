@@ -38,6 +38,18 @@ public class Caller {
 		return phoneNumber;
 	}
 	
+	public boolean getIsAnonymous() {
+		return isAnonymous;
+	}
+	
+	public LocalDate getLastContactDate () {
+		return lastContactDate;
+	}
+	
+	public String getNotes() {
+		return notes;
+	}
+	
 	public void setLastContactDate(LocalDate lastContactDate) {
 		this.lastContactDate = lastContactDate;
 	}
@@ -49,7 +61,7 @@ public class Caller {
 		return 
 				"\tPhone number: " + phoneNumber +
 				"\n\tIs anonymous?: " + anonymous +
-				"\n\tLast contact date" + lastContactDate +
+				"\n\tLast contact date: " + lastContactDate +
 				"\n\tNotes: " + notes;
 	}
 }

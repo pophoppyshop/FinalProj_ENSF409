@@ -25,6 +25,14 @@ public class Report {
         sb.append("Resolved Calls: ").append(getResolvedCount()).append("\n");
         sb.append("Escalated Calls: ").append(getEscalatedCount()).append("\n");
         sb.append("Pending Calls: ").append(getPendingCount()).append("\n");
+        
+        for (CrisisCall call : callList) {
+        	sb.append("\nCall information:").append(call).append("\n");
+        }
+        
+        for (Volunteer volunteer : VolunteerManager.getVolunteers()) {
+        	sb.append("\nVolunteer information:").append(volunteer).append("\n");
+        }
 
         return sb.toString();
     }

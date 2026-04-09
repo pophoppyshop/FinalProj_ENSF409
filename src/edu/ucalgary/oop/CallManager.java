@@ -2,6 +2,7 @@ package edu.ucalgary.oop;
 
 import java.util.*;
 import java.sql.*;
+import java.sql.Date;
 import java.time.*;
 
 public class CallManager implements Observer{
@@ -20,12 +21,34 @@ public class CallManager implements Observer{
 		callList.add(call);
 
 		try{
+			// Get connection and prepare statement
 			Connection conn = DatabaseManager.getConnection();
-
 			String sql = 
+				"INSERT INTO Callers (CallerID, PhoneNumber, IsAnonymous, LastContactDate, Notes) " +
+				"VALUES (?, ?, ?, ?, ?)";
+			
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			
+			// Add caller object to database
+			Caller caller = call.getCaller();
+			
+			stmt.setInt(1, caller.getCallerID());
+			stmt.setString(2, caller.getPhoneNumber());
+			stmt.setBoolean(3, caller.getIsAnonymous());
+			stmt.setDate(4, Date.valueOf(caller.getLastContactDate()));
+			stmt.setString(5, caller.getNotes());
+			
+			stmt.executeUpdate();
+			
+			// Get connection and prepare statement
+			conn = DatabaseManager.getConnection();
+			sql = 
 				"INSERT INTO CrisisCalls (CallerID, CallTime, IssueID, UrgencyLevel, Status, Notes) " +
 				"VALUES (?, ?, ?, ?, ?, ?)";
-			PreparedStatement stmt = conn.prepareStatement(sql);
+			
+			stmt = conn.prepareStatement(sql);
+			
+			// Add call object to database
 			stmt.setInt(1, call.getCaller().getCallerID());
 			stmt.setTimestamp(2, Timestamp.valueOf(call.getCallDate().atTime(call.getCallTime())
 			));
@@ -33,6 +56,7 @@ public class CallManager implements Observer{
 			stmt.setInt(4, call.getUrgencyLevel());
 			stmt.setString(5, call.getStatus());
 			stmt.setString(6, call.getNotes());
+			
 			stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e){
@@ -71,16 +95,16 @@ public class CallManager implements Observer{
 		
 		System.out.println("Call details successfully updated.");
 		try{
+			// Get connection and prepare statement
 			Connection conn = DatabaseManager.getConnection();
-
 			String sql = 
-				"UPDATE CrisisCalls SET UrgencyLevel=?, Notes=?, CallDuration=? " +
+				"UPDATE CrisisCalls SET UrgencyLevel=?, Notes=? " +
 				"WHERE CallID=?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
+			
 			stmt.setInt(1, newCall.getUrgencyLevel());
 			stmt.setString(2, newCall.getNotes());
-			stmt.setObject(3, Duration.ofMinutes((long)newCall.getCallDuration()));
-			stmt.setInt(4, newCall.getCallID());
+			stmt.setInt(3, newCall.getCallID());
 			
 			stmt.executeUpdate();
 			stmt.close();
@@ -102,12 +126,13 @@ public class CallManager implements Observer{
 		if (!valid){
 		throw new IllegalArgumentException("Invalid status!");}
 		try{
+			// Get connection and prepare statement
 			Connection conn = DatabaseManager.getConnection();
-
 			String sql = 
 				"UPDATE CrisisCalls SET Status=? WHERE CallID=?";
-
 			PreparedStatement stmt = conn.prepareStatement(sql);
+			
+			// Update database
 			stmt.setString(1, call.getStatus());
 			stmt.setInt(2, call.getCallID());
 			
@@ -224,15 +249,20 @@ public class CallManager implements Observer{
 			
 			// Keep extracting until no more call objects
 			while (rs.next()) { 
-				// Get last contact date of caller
-			    LocalDate lastContactDate = rs.getDate("LastContactDate").toLocalDate();
-			    
+				// Skip if the phone number is not in the right format
+				String phoneNumber = rs.getString("PhoneNumber");
+				
+				if (phoneNumber != null && !CallManager.isPhoneFormat(phoneNumber)) {
+					System.out.println("Invalid phone number (" + phoneNumber + ") format for caller " + rs.getInt("CallerID"));
+					continue;
+				}
+				
 			    // Create Caller 
 			    Caller caller = new Caller( 
 				    rs.getInt("CallerID"), 
-				    rs.getString("PhoneNumber"), 
+				    (phoneNumber == null) ? "" : phoneNumber, 
 				    rs.getBoolean("IsAnonymous"), 
-				    lastContactDate, 
+				    (rs.getDate("LastContactDate") == null) ? null : rs.getDate("LastContactDate").toLocalDate(), 
 				    rs.getString("CallerNotes")
 				); 
 			    
@@ -241,16 +271,19 @@ public class CallManager implements Observer{
 				
 				// Convert SQL Interval to Duration
 				String interval = rs.getString("CallDuration");
+				double totalMins = 0;
 				
-				// Split it by a colon
-				String[] parts = interval.split(":");
-				
-				// Get hours, minutes, and seconds
-				double hours = Double.parseDouble(parts[0]);
-				double minutes = Double.parseDouble(parts[1]);
-				double seconds = Double.parseDouble(parts[2]);
-				
-				double totalMins = hours * 60.0 + minutes + seconds / 60.0;
+				if (interval != null) {
+					// Split it by a colon
+					String[] parts = interval.split(":");
+					
+					// Get hours, minutes, and seconds
+					double hours = Double.parseDouble(parts[0]);
+					double minutes = Double.parseDouble(parts[1]);
+					double seconds = Double.parseDouble(parts[2]);
+					
+					totalMins = hours * 60.0 + minutes + seconds / 60.0;
+				}
 			
 				// Create call
 				CrisisCall call = new CrisisCall(
@@ -260,7 +293,7 @@ public class CallManager implements Observer{
 					rs.getInt("UrgencyLevel"), 
 					ts.toLocalDateTime().toLocalTime(), 
 					ts.toLocalDateTime().toLocalDate(), 
-					totalMins, 
+					(interval == null) ? 0 : totalMins, 
 					rs.getString("Notes"), 
 					caller
 				); 

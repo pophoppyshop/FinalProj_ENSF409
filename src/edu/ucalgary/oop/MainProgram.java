@@ -163,9 +163,17 @@ public class MainProgram {
                     	break;
                     }
                     
+                    // Get anonymous status
                     System.out.println("Is the caller anonymous? (yes or no):");
 					String input = scanner.nextLine().toLowerCase();
 					boolean isAnonymous = input.equals("true") || input.equals("yes");
+					
+					DatabaseManager.countAction();
+					
+					// Get notes
+					System.out.println("Enter notes about the caller:");
+					String notesInput = scanner.nextLine().toLowerCase();
+					
 					
 					DatabaseManager.countAction();
 
@@ -175,7 +183,7 @@ public class MainProgram {
                         phone,
                         isAnonymous,
                         LocalDate.now(),
-                        "N/A"
+                        notesInput
                     );
                     
                     // Get call info
@@ -253,15 +261,11 @@ public class MainProgram {
 					
 					DatabaseManager.countAction();
 					
-					System.out.println("Enter updated call duration (mins):");
-					double callDuration = Double.parseDouble(scanner.nextLine());
-					
 					DatabaseManager.countAction();
 
 					// Update urgency and notes 
 					newCall.setUrgencyLevel(newUrgency);
 					newCall.setNotes(newNotes);
-					newCall.setCallDuration(callDuration);
 					
 					CallManager.modifyCallDetails(newCall);
                     

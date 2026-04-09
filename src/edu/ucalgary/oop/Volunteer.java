@@ -95,7 +95,7 @@ public class Volunteer {
     	
     	return "\nID: " + volunteerID +
     			"\n\tName: " + name +
-    			"\n\tPhone number:" + phoneNumber +
+    			"\n\tPhone number: " + phoneNumber +
     			"\n\tIs available: " + ((isAvailable) ? "Yes" : "No") + 
     			"\n\tMax concurrent calls: " + maxConcurrentCalls +
     			"\n\tNumber of current calls: " + currentCalls +
