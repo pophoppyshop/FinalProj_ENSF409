@@ -379,7 +379,9 @@ public class MainProgram {
 					DatabaseManager.countAction();
 					
 					try {
-						VolunteerManager.getVolunteer(index).setAvailability(newAvailability);
+						Volunteer v = VolunteerManager.getVolunteer(index);
+						v.setAvailability(newAvailability);
+						VolunteerManager.updateAvailability(v.getVolunteerID(), newAvailability);
 						System.out.println("Availability updated.");
 					} catch (IllegalArgumentException | IllegalStateException e) {
 						e.printStackTrace();
