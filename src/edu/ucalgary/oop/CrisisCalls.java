@@ -115,7 +115,7 @@ public class CrisisCall{
 				"\n\tStatus: " + status + 
 				"\n\tUrgency: " + urgencyLevel +
 				"\n\tCall time: " + callTime + 
-				"\n\tCall date:" + callDate + 
+				"\n\tCall date: " + callDate + 
 				"\n\tDuration (mins): " + callDuration +
 				"\n\tNotes: " + notes +
 				"\nCaller information: \n" + caller.toString();
