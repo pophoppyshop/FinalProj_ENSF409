@@ -5,6 +5,7 @@ import java.util.List;
 import java.sql.*;
 import java.util.Map;
 import java.util.HashMap;
+import java.time.LocalDateTime;
 
 public class VolunteerManager implements Observer{
 	private static List<Volunteer> volunteers = new ArrayList<>();
@@ -21,10 +22,6 @@ public class VolunteerManager implements Observer{
 		return volunteers;
 	}
 	
-	public static void addVolunteer(Volunteer v){
-		volunteers.add(v);
-	}
-	
 	public static Volunteer getVolunteer(int id) throws IllegalArgumentException, IllegalStateException{
 		// Throw exception if empty call list
 		if (volunteers.size() == 0) {
@@ -38,7 +35,7 @@ public class VolunteerManager implements Observer{
 			}
 		}
 		
-		throw new IllegalArgumentException("Call ID does not exist in call list.");
+		throw new IllegalArgumentException("Volunteer ID does not exist.");
 	}
 	
 	public static void printVolunteers(List<Volunteer> list){
@@ -59,6 +56,41 @@ public class VolunteerManager implements Observer{
 		return strategy.execute(volunteers);
 	}
 
+	public static void updateAvailability(int volunteerID, boolean availability) {
+		try {
+			Connection conn = DatabaseManager.getConnection();
+			String sql = "UPDATE Volunteers SET IsAvailable=?, LastAvailableChange=? WHERE VolunteerID=?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+
+			stmt.setBoolean(1, availability);
+			stmt.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+			stmt.setInt(3, volunteerID);
+
+			stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e){
+			System.out.println("Error updating availability: " + e.getMessage());
+		}
+	}
+	public static void addVolunteer(Volunteer v) {
+		volunteers.add(v);
+		try {
+			Connection conn = DatabaseManager.getConnection();
+			String sql = "INSERT INTO Volunteers (Name, PhoneNumber, IsAvailable, MaxConcurrentCalls, LastAvailableChange, CurrentCalls) VALUES (?, ?, ?, ?, ?, ?)";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+
+			stmt.setString(1, v.getName());
+			stmt.setString(2, v.getPhoneNumber());
+			stmt.setBoolean(3, v.isAvailable());
+			stmt.setInt(4, v.getMaxConcurrentCalls());
+			stmt.setTimestamp(5, Timestamp.valueOf(v.getLastAvailableChange().atStartOfDay()));
+			stmt.setInt(6, v.getCurrentCalls());
+			stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e){
+			System.out.println("Error adding volunteer: " + e.getMessage());
+		}
+	}
 	@Override
 	public void update() {
 		System.out.println("Updating volunteers from database..."); 
