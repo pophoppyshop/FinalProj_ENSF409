@@ -68,8 +68,6 @@ public class MainProgram {
 			}
 		}
 		
-		System.out.println(DatabaseManager.getConnection());
-		
 		scanner.close();
 		DatabaseManager.disconnect();
 	}
