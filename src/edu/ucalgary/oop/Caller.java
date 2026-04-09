@@ -20,7 +20,7 @@ public class Caller {
 	public Caller(int callerID, String phoneNumber, boolean isAnonymous, LocalDate lastContactDate,
 			String notes) {
 		// Normalize phone number
-		String phoneRegex = "^(\\d{3})[\\s.-_,]*(\\d{3})[\\s.-_,]*(\\d{4})$";
+		String phoneRegex = "^(\\d{3})[\\s.-]?(\\d{3})[\\s.-]?(\\d{4})$";
 		String replacement = "$1-$2-$3";
 		
 		this.callerID = callerID;
