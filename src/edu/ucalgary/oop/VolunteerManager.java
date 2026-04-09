@@ -58,10 +58,12 @@ public class VolunteerManager implements Observer{
 
 	public static void updateAvailability(int volunteerID, boolean availability) {
 		try {
+			// Get connection and prepare statement
 			Connection conn = DatabaseManager.getConnection();
 			String sql = "UPDATE Volunteers SET IsAvailable=?, LastAvailableChange=? WHERE VolunteerID=?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 
+			// Update the database
 			stmt.setBoolean(1, availability);
 			stmt.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
 			stmt.setInt(3, volunteerID);
@@ -75,13 +77,15 @@ public class VolunteerManager implements Observer{
 	public static void addVolunteer(Volunteer v) {
 		volunteers.add(v);
 		try {
+			// Get connection and statement
 			Connection conn = DatabaseManager.getConnection();
 			String sql = "INSERT INTO Volunteers (Name, PhoneNumber, IsAvailable, MaxConcurrentCalls, LastAvailableChange, CurrentCalls) VALUES (?, ?, ?, ?, ?, ?)";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 
+			// Add volunteer to database
 			stmt.setString(1, v.getName());
 			stmt.setString(2, v.getPhoneNumber());
-			stmt.setBoolean(3, v.isAvailable());
+			stmt.setBoolean(3, v.getAvailability());
 			stmt.setInt(4, v.getMaxConcurrentCalls());
 			stmt.setTimestamp(5, Timestamp.valueOf(v.getLastAvailableChange().atStartOfDay()));
 			stmt.setInt(6, v.getCurrentCalls());
@@ -121,19 +125,23 @@ public class VolunteerManager implements Observer{
 				// Add new volunteer object into map
 				if (volunteer == null){
 					// Skip if the phone number is not in the right format
-					if (!CallManager.isPhoneFormat(rs.getString("PhoneNumber"))) {
-						System.out.println("Invalid phone number (" + rs.getString("PhoneNumber") + ") format for " + rs.getString("Name"));
+					String phoneNumber = rs.getString("PhoneNumber");
+					
+					if (phoneNumber != null && !CallManager.isPhoneFormat(phoneNumber)) {
+						System.out.println("Invalid phone number (" + phoneNumber + ") format for " + rs.getString("Name"));
 						continue;
 					}
+					
+					Timestamp time = rs.getTimestamp("LastAvailableChange");
 					
 					// Create volunteer object
 					volunteer = new Volunteer(
 							volunteerID,
 							rs.getString("Name"),
-							rs.getString("PhoneNumber"),
+							(phoneNumber == null) ? "" : phoneNumber,
 							rs.getBoolean("IsAvailable"),
 							rs.getInt("MaxConcurrentCalls"),
-							rs.getTimestamp("LastAvailableChange").toLocalDateTime().toLocalDate(),
+							(time == null) ? null : time.toLocalDateTime().toLocalDate(),
 							rs.getInt("CurrentCalls"));
 					
 					volunteerMap.put(volunteerID, volunteer);
@@ -144,7 +152,8 @@ public class VolunteerManager implements Observer{
 					VolunteerSpecialty specialty = new VolunteerSpecialty(
 							rs.getString("SpecialtyName"),
 							rs.getString("Description"),
-							rs.getDate("CertificationDate").toLocalDate());
+							(rs.getDate("CertificationDate") == null) ? null : rs.getDate("CertificationDate").toLocalDate());
+					
 					volunteer.addSpecialty(specialty);
 				} 
 			}
