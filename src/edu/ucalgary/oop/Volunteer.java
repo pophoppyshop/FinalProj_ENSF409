@@ -17,7 +17,7 @@ public class Volunteer {
     public Volunteer(int volunteerID, String name, String phoneNumber, boolean isAvailable, int maxConcurrentCalls, 
     		LocalDate lastAvailableChange, int currentCalls){
     	// Normalize phone number
-    	String phoneRegex = "^(\\d{3})[\\s.-_,]*(\\d{3})[\\s.-_,]*(\\d{4})$";
+    	String phoneRegex = "^(\\d{3})[\\s.-]?(\\d{3})[\\s.-]?(\\d{4})$";
 		String replacement = "$1-$2-$3";
     	
 		this.volunteerID = volunteerID;
