@@ -1,7 +1,17 @@
 # FinalProj_ENSF409
 Our program for the Calgary Crisis Connect allows an administrator to log-in to the program and connect to the database, allowing the user to manage calls, manage volunteers, manage schedules, and generate a comprehensive report. Our intuitive user interface will allow the user to return to previous menus and quit the program when needed.\
 <br>
-**Managing Calls:** While in the manage calls subsection, the user can view calls; add new calls; modify call details; and update a call status. While _viewing calls_, the administrator may filter by either urgency level or status, or they may view all calls from all time. To filter by urgency, the user will be shown different urgency levels and may filter by a specific urgency (e.g, general support, depression, suicide risk, etc.). When filtering by status, the administrator may filter by pending, active, resolved, or escalated. While _adding new calls_, the administrator must enter the caller phone number, whether the caller is anonymous, the urgency level, and any notes associated with the call. While _modifying call details_, the administrator can enter new notes or update the call duration. In the _update status_ section, the call ID is required and then the new status can be entered.\
+**Managing Calls:** While in the manage calls subsection, the user can view calls; add new calls; 
+modify call details; and update a call status. While viewing calls, the administrator may filter by 
+either urgency level or status, or they may view all calls from all time. To filter by urgency, the user 
+will be shown different urgency levels and may filter by a specific urgency (e.g, general support, 
+depression, suicide risk, etc.). When filtering by status, the administrator may filter by pending, 
+active, resolved, or escalated. While adding new calls, the administrator must enter the caller 
+phone number, whether the caller is anonymous, the urgency level, and any notes associated with 
+the call. While modifying call details, the administrator can enter new notes or update the call 
+duration. When updating the call duration, the duration must be entered in the format of 
+“hh:mm:ss”. In the update status section, the call ID is required and then the new status can be 
+entered.\
 <br>
 **Managing volunteers:** In this section, the administrator may either view counselors or modify availability. If view counselors is selected, the user may then filter by specialty, availability, or view all volunteers. If modify availability is selected, the volunteer index must be entered as well as their updated availability.\
 <br>
