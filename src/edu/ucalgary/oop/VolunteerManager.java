@@ -5,6 +5,7 @@ import java.util.List;
 import java.sql.*;
 import java.util.Map;
 import java.util.HashMap;
+import java.time.LocalDateTime;
 
 public class VolunteerManager implements Observer{
 	private static List<Volunteer> volunteers = new ArrayList<>();
@@ -19,10 +20,6 @@ public class VolunteerManager implements Observer{
 	
 	public static List<Volunteer> getVolunteers(){
 		return volunteers;
-	}
-	
-	public static void addVolunteer(Volunteer v){
-		volunteers.add(v);
 	}
 	
 	public static Volunteer getVolunteer(int id) throws IllegalArgumentException, IllegalStateException{
@@ -70,12 +67,30 @@ public class VolunteerManager implements Observer{
 			stmt.setInt(3, volunteerID);
 
 			stmt.executeUpdate();
-			stmt.close()
+			stmt.close();
 		} catch (SQLException e){
 			System.out.println("Error updating availability: " + e.getMessage());
 		}
 	}
-	
+	public static void addVolunteer(Volunteer v) {
+		volunteers.add(v);
+		try {
+			Connection conn = DatabaseManager.getConnection();
+			String sql = "INSERT INTO Volunteers (Name, PhoneNumber, IsAvailable, MaxConcurrentCalls, LastAvailableChange, CurrentCalls) VALUES (?, ?, ?, ?, ?, ?)";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+
+			stmt.setString(1, v.getName());
+			stmt.setString(2, v.getPhoneNumber());
+			stmt.setBoolean(3, v.isAvailable());
+			stmt.setInt(4, v.getMaxConcurrentCalls());
+			stmt.setTimestamp(5, Timestamp.valueOf(v.getLastAvailableChange().atStartOfDay()));
+			stmt.setInt(6, v.getCurrentCalls());
+			stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e){
+			System.out.println("Error adding volunteer: " + e.getMessage());
+		}
+	}
 	@Override
 	public void update() {
 		System.out.println("Updating volunteers from database..."); 
