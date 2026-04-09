@@ -73,6 +73,7 @@ public class ScheduleManagerTest {
 
     @Test
     public void testPrioritize() {
+        //test that prioritize correctly orders urgencies
         ScheduleManager.prioritize(calls);
 
         assertEquals("Highest urgency should be first",
@@ -87,6 +88,7 @@ public class ScheduleManagerTest {
 
     @Test
     public void testAssignUpdatesVolunteerCalls() {
+        //test that assign() correctly assigns the volunteer the correct amount of calls
         // use first call for clarity
         List<CrisisCall> singleCall = new ArrayList<>();
         singleCall.add(calls.get(0));
@@ -99,6 +101,7 @@ public class ScheduleManagerTest {
 
     @Test
     public void testAssignRespectsMaxCalls() {
+        //test that assign does not assign a volunteer more than their maximum calls
         // Only use second volunteer (already at max)
         List<Volunteer> singleVolunteer = new ArrayList<>();
         singleVolunteer.add(v2);
@@ -114,6 +117,7 @@ public class ScheduleManagerTest {
 
     @Test
     public void testEscalateLogic() {
+        //test that the correct number of calls are assigned with expected urgency level
         int count = 0;
 
         for (CrisisCall c : calls) {
