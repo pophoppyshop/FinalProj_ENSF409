@@ -3,7 +3,7 @@ package edu.ucalgary.oop;
 import java.util.List;
 
 public class ScheduleByWorkloadStrategy implements Strategy<List<CrisisCall>, Object>{
-	List<Volunteer> volunteers;
+	private List<Volunteer> volunteers;
 	
 	public ScheduleByWorkloadStrategy(List<Volunteer> volunteers) {
 		this.volunteers = volunteers;
