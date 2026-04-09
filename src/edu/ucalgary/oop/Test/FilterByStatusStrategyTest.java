@@ -18,28 +18,28 @@ public class FilterByStatusStrategyTest {
 
     // shared test data
     private Caller caller;
-    private StringBuilder notes;
+    private String notes;
     
 
     @Before
     public void setUp() {
 
         // caller setup
-        notes = new StringBuilder("Test notes");
+        notes = "Test notes";
         caller = new Caller(4, "111-1111", true, date, notes);
 
         // create calls list
         calls = new ArrayList<>();
 
-        calls.add(new CrisisCall(1, "PENDING", 3,
+        calls.add(new CrisisCall(1, 1, "PENDING", 3,
                 LocalTime.now(), LocalDate.now(),
                 10.0, "note1", caller));
 
-        calls.add(new CrisisCall(2, "RESOLVED", 2,
+        calls.add(new CrisisCall(2, 1, "RESOLVED", 2,
                 LocalTime.now(), LocalDate.now(),
                 5.0, "note2", caller));
 
-        calls.add(new CrisisCall(3, "PENDING", 4,
+        calls.add(new CrisisCall(3, 1, "PENDING", 4,
                 LocalTime.now(), LocalDate.now(),
                 15.0, "note3", caller));
 

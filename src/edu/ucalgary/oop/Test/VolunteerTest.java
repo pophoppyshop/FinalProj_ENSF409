@@ -13,21 +13,22 @@ public class VolunteerTest {
     private VolunteerSpecialty expectedSpecialty;
 
     //volunteer info
+    
     private int expectedVolunteerID = 0;
     private String expectedName = "Susan Jones";
     private boolean expectedIsAvailable = true;
     private int expectedMaxConcurrentCalls = 4;
     private int expectedCurrentCalls = 0;
-    private String expectedLastAvailableChange = "null";
-    private String expectedPhoneNumber = "222-2222-2222";
+    private LocalDate expectedLastAvailableChange = LocalDate.of(2026,04,05);
+    private String expectedPhoneNumber = "2222222";
     private Volunteer volunteer;
 
 
     @Before
     public void setUp(){
         expectedSpecialty = new VolunteerSpecialty(expectedSpecialtyName, expectedSpecialtyDescription, expectedCertificationDate);
-        volunteer = new Volunteer(expectedName, expectedPhoneNumber, expectedIsAvailable,
-                    expectedMaxConcurrentCalls);
+        volunteer = new Volunteer(expectedVolunteerID, expectedName, expectedPhoneNumber, expectedIsAvailable, expectedMaxConcurrentCalls, expectedLastAvailableChange, expectedCurrentCalls);
+
     }
 
     @Test

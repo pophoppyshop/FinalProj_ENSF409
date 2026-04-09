@@ -10,7 +10,7 @@ public class CallerTest{
     private String expectedPhoneNumber;
     private boolean expectedIsAnonymous;
     private LocalDate expectedLastContact;
-    private StringBuilder expectedNotes;   //null, still pending
+    private String expectedNotes;   //null, still pending
 
     private Caller caller;
 
@@ -23,7 +23,7 @@ public class CallerTest{
         expectedPhoneNumber = "111-1111-1111";
         expectedIsAnonymous = true;
         expectedLastContact = LocalDate.now();
-        expectedNotes = new StringBuilder("null");
+        expectedNotes = "null";
     }
 
     @Test

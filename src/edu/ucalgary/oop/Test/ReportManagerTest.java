@@ -27,7 +27,7 @@ public class ReportManagerTest {
     public void setUp() {
 
         // Setup caller
-        notes = new StringBuilder("Test notes");
+        notes = "Test notes";
         caller = new Caller(4, "111-1111", true, date, notes);
 
         // Setup date
@@ -36,19 +36,19 @@ public class ReportManagerTest {
         // Setup calls
         calls = new ArrayList<>();
 
-        calls.add(new CrisisCall(1, "PENDING", 3,
+        calls.add(new CrisisCall(1, 1, "PENDING", 3,
                 LocalTime.now(), testDate,
                 10.0, "note1", caller));
 
-        calls.add(new CrisisCall(2, "RESOLVED", 2,
+        calls.add(new CrisisCall(2, 1, "RESOLVED", 2,
                 LocalTime.now(), testDate,
                 5.0, "note2", caller));
 
-        calls.add(new CrisisCall(3, "ESCALATED", 5,
+        calls.add(new CrisisCall(3, 1, "ESCALATED", 5,
                 LocalTime.now(), LocalDate.of(2026, 4, 4),
                 8.0, "note3", caller));
 
-        calls.add(new CrisisCall(4, "PENDING", 4,
+        calls.add(new CrisisCall(4, 1, "PENDING", 4,
                 LocalTime.now(), testDate,
                 12.0, "note4", caller));
 

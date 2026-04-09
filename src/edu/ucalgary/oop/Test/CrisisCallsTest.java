@@ -12,6 +12,7 @@ public class CrisisCallsTest{
 	private LocalDate expectedCallDate = LocalDate.now();
 	private double expectedCallDuration = 0; // still pending
     private String expectedCallNotes = "null";   //null, still pending
+    private int expectedIssueID = 1;
     private CrisisCall crisisCall;
 
     //caller information
@@ -19,7 +20,7 @@ public class CrisisCallsTest{
     private String expectedPhoneNumber = "111-1111-1111";
     private boolean expectedIsAnonymous = true;
     private LocalDate expectedLastContact = LocalDate.of(2025,01,01);
-    private StringBuilder expectedCallerNotes = new StringBuilder("null");   //null, still pending
+    private String expectedCallerNotes = new StringBuilder("null");   //null, still pending
     private Caller expectedCaller;
 
 
@@ -27,7 +28,7 @@ public class CrisisCallsTest{
     public void setUp(){
         expectedCaller = new Caller(expectedID, expectedPhoneNumber, expectedIsAnonymous, expectedLastContact,
         expectedCallerNotes);
-        crisisCall = new CrisisCall(expectedCallID, expectedStatus, expectedUrgencyLevel, expectedCallTime,
+        crisisCall = new CrisisCall(expectedCallID, expectedIssueID, expectedStatus, expectedUrgencyLevel, expectedCallTime,
             expectedCallDate, expectedCallDuration, expectedCallNotes, expectedCaller);
     }
 

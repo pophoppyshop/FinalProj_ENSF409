@@ -18,31 +18,31 @@ public class FilterByUrgencyStrategyTest {
 
     // shared objects
     private Caller caller;
-    private StringBuilder notes;
+    private String notes;
 
     @Before
     public void setUp() {
 
         // setup caller
-        notes = new StringBuilder("Test notes");
+        notes = "Test notes";
         caller = new Caller(4, "111-1111", true, date, notes);
 
         // setup calls
         calls = new ArrayList<>();
 
-        calls.add(new CrisisCall(1, "PENDING", 3,
+        calls.add(new CrisisCall(1, 1, "PENDING", 3,
                 LocalTime.now(), LocalDate.now(),
                 10.0, "note1", caller));
 
-        calls.add(new CrisisCall(2, "RESOLVED", 5,
+        calls.add(new CrisisCall(2, 1, "RESOLVED", 5,
                 LocalTime.now(), LocalDate.now(),
                 5.0, "note2", caller));
 
-        calls.add(new CrisisCall(3, "PENDING", 3,
+        calls.add(new CrisisCall(3, 1, "PENDING", 3,
                 LocalTime.now(), LocalDate.now(),
                 8.0, "note3", caller));
 
-        calls.add(new CrisisCall(4, "ESCALATED", 2,
+        calls.add(new CrisisCall(4, 1, "ESCALATED", 2,
                 LocalTime.now(), LocalDate.now(),
                 6.0, "note4", caller));
 

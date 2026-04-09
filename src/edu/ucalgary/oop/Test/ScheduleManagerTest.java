@@ -23,7 +23,7 @@ public class ScheduleManagerTest {
 
     // shared objects
     private Caller caller;
-    private StringBuilder notes;
+    private String notes;
 
     private Volunteer v1;
     private Volunteer v2;
@@ -32,31 +32,31 @@ public class ScheduleManagerTest {
     public void setUp() {
 
         // setup caller
-        notes = new StringBuilder("Test notes");
+        notes = "Test notes";
         caller = new Caller(4,"111-1111", true, date, notes);
 
         // setup calls
         calls = new ArrayList<>();
 
-        calls.add(new CrisisCall(1, "PENDING", 2,
+        calls.add(new CrisisCall(1, 1, "PENDING", 2,
                 LocalTime.now(), LocalDate.now(),
                 10.0, "note1", caller));
 
-        calls.add(new CrisisCall(2, "PENDING", 5,
+        calls.add(new CrisisCall(2, 1, "PENDING", 5,
                 LocalTime.now(), LocalDate.now(),
                 5.0, "note2", caller));
 
-        calls.add(new CrisisCall(3, "PENDING", 3,
+        calls.add(new CrisisCall(3, 1, "PENDING", 3,
                 LocalTime.now(), LocalDate.now(),
                 8.0, "note3", caller));
 
         // setup volunteers
         volunteers = new ArrayList<>();
 
-        v1 = new Volunteer("Alice", "123", true, 2);
+        v1 = new Volunteer(1, "Alice", "123", true, 2, date);
         v1.setCurrentCalls(0);
 
-        v2 = new Volunteer("Bob", "456", true, 2);
+        v2 = new Volunteer(2, "Bob", "456", true, 2, date);
         v2.setCurrentCalls(2); // already at max
 
         volunteers.add(v1);

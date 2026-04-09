@@ -4,6 +4,7 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 import java.util.*;
+import java.time.LocalDate;
 
 public class VolunteerManagerTest {
 
@@ -12,6 +13,7 @@ public class VolunteerManagerTest {
     // test volunteers
     private Volunteer v1;
     private Volunteer v2;
+    private Volunteer v3;
 
     // expected values
     private int expectedSize;
@@ -26,8 +28,9 @@ public class VolunteerManagerTest {
         VolunteerManager.getVolunteers().clear();
 
         // create volunteers
-        v1 = new Volunteer("Alice", "1234567890", true, 2);
-        v2 = new Volunteer("Bob", "1111111111", false, 3);
+        v1 = new Volunteer(1, "Alice", "1234567890", true, 2, LocalDate.of(2026,04,05), 1);
+        v2 = new Volunteer(2, "Bob", "1111111111", false, 3, LocalDate.of(2026,04,05), 1);
+        v3 = new Volunteer(3, "Phil", "77777", true, 2, LocalDate.of(2026,04,05), 1);
 
         // default expectations
         expectedSize = 1;
@@ -58,6 +61,14 @@ public class VolunteerManagerTest {
 
         assertEquals("Volunteer list should contain two entries",
                 2, volunteers.size());
+    }
+
+    @Test
+    public void testGetVolunteerException() throws Exception{
+        VolunteerManager.addVolunteer(v1);
+        VolunteerManager.addVolunteer(v2);
+
+        assertEquals("Exception for non-existant Call ID", v3, VolunteerManager.getVolunteer(3));
     }
 
     @Test
