@@ -63,6 +63,8 @@ public class ReportManagerTest {
 
     @Test
     public void testFilterCallsByDate() {
+        //test that filtering expected calls returns expected count and that the returned calls match 
+        //the date that they were filtered for
         List<CrisisCall> result = manager.filterCallsByDate(testDate);
 
         assertEquals("Filtered calls count should match",
@@ -76,6 +78,7 @@ public class ReportManagerTest {
 
     @Test
     public void testGenerateDailyReport() {
+        //test that daily report matches required parameters
         Report report = manager.generateDailyReport(testDate);
 
         assertEquals("Total calls should match",
@@ -96,6 +99,7 @@ public class ReportManagerTest {
 
     @Test
     public void testExportReportRuns() {
+        //test that exporting report succeeds
         Report report = manager.generateDailyReport(testDate);
 
         manager.exportReport(report);
