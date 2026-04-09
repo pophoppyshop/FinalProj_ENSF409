@@ -3,7 +3,7 @@ package edu.ucalgary.oop;
 import java.util.*;
 
 public class FilterByAvailabilityStrategy implements Strategy<List<Volunteer>, List<Volunteer>> {
-	boolean availability = false;
+	private boolean availability = false;
 	
 	public FilterByAvailabilityStrategy (boolean available) {
 		availability = available;
