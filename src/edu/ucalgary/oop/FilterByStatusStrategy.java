@@ -3,7 +3,7 @@ package edu.ucalgary.oop;
 import java.util.*;
 
 public class FilterByStatusStrategy implements Strategy<List<CrisisCall>, List<CrisisCall>>{
-	String status;
+	private String status;
 	
 	public FilterByStatusStrategy(String status) {
 		this.status = status;
