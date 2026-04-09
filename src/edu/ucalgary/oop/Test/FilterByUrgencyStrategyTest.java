@@ -55,6 +55,7 @@ public class FilterByUrgencyStrategyTest {
 
     @Test
     public void testMatchingUrgency() {
+        //test that strategy returns calls with matching urgency
         List<CrisisCall> result = strategy.execute(calls);
 
         assertEquals("Should return calls with matching urgency",
@@ -63,6 +64,7 @@ public class FilterByUrgencyStrategyTest {
 
     @Test
     public void testNoMatches() {
+        //test that filtering for an urgency that has not been added returns an empty list
         strategy = new FilterByUrgencyStrategy(10);
 
         List<CrisisCall> result = strategy.execute(calls);
@@ -73,6 +75,7 @@ public class FilterByUrgencyStrategyTest {
 
     @Test
     public void testSingleMatch() {
+        //test that filtering for one match returns a list with one object
         strategy = new FilterByUrgencyStrategy(5);
 
         List<CrisisCall> result = strategy.execute(calls);
@@ -83,6 +86,7 @@ public class FilterByUrgencyStrategyTest {
 
     @Test
     public void testEmptyList() {
+        //test that empty list is returned with an empty input for execute
         calls = new ArrayList<>();
 
         List<CrisisCall> result = strategy.execute(calls);

@@ -41,6 +41,7 @@ public class VolunteerManagerTest {
 
     @Test
     public void testAddVolunteer() {
+        //test that volunteer is added successfully
         VolunteerManager.addVolunteer(v1);
 
         volunteers = VolunteerManager.getVolunteers();
@@ -54,6 +55,7 @@ public class VolunteerManagerTest {
 
     @Test
     public void testGetVolunteers() {
+        //test that after adding multiple volunteers, the same added volunteers are returned with getVOlunteers()
         VolunteerManager.addVolunteer(v1);
         VolunteerManager.addVolunteer(v2);
 
@@ -65,6 +67,7 @@ public class VolunteerManagerTest {
 
     @Test
     public void testGetVolunteerException() throws Exception{
+        //test that attempting to get a volunteer for an index that doesnt exist throws an IllegalArgumentException
         VolunteerManager.addVolunteer(v1);
         VolunteerManager.addVolunteer(v2);
 
@@ -73,6 +76,7 @@ public class VolunteerManagerTest {
 
     @Test
     public void testVolunteerDataForPrint() {
+        //test that specific attributes of the added volunteer match with expected values
         VolunteerManager.addVolunteer(v1);
 
         volunteers = VolunteerManager.getVolunteers();

@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.time.*;
 
 public class CrisisCallsTest{
+    //call information
     private int expectedCallID = 4;
     private String expectedStatus = "Pending";
 	private int expectedUrgencyLevel = 1;
@@ -26,6 +27,7 @@ public class CrisisCallsTest{
 
     @Before
     public void setUp(){
+        //create expectedCaller and crisisCall with expected values
         expectedCaller = new Caller(expectedID, expectedPhoneNumber, expectedIsAnonymous, expectedLastContact,
         expectedCallerNotes);
         crisisCall = new CrisisCall(expectedCallID, expectedIssueID, expectedStatus, expectedUrgencyLevel, expectedCallTime,
@@ -34,30 +36,35 @@ public class CrisisCallsTest{
 
     @Test
     public void testGetStatus(){
+        //confirm that getStatus() returns expected value
         assertEquals("Call should be given status", expectedStatus, 
             crisisCall.getStatus());
     }
 
     @Test
     public void testGetUrgencyLevel(){
+        //confirm that getUrgencyLevel() returns expected value
         assertEquals("Call should be given urgency level", expectedUrgencyLevel, 
             crisisCall.getUrgencyLevel());
     }
 
     @Test
     public void testGetCallDuration(){
+        //confirm that getCallDuration() returns expected value
         assertEquals("Call should be given duration", expectedCallDuration, 
             crisisCall.getCallDuration(), 0.1);
     }
 
     @Test
     public void testgetCaller(){
+        //confirm that getCaller() returns expected value
         assertEquals("Call should have caller information", expectedCaller, 
             crisisCall.getCaller());
     }
 
     @Test
     public void testToString(){
+        //test that toString matches expected
         String expectedString = "\nID: 4\n\tStatus: Pending\n\tUrgency: 1\n\tCall time: "
             +expectedCallTime+"\n\tCall date:"+LocalDate.now()+"\n\tDuration (mins): 0.0\n\tNotes: null"
             +"\nCaller information: \n" + expectedCaller.toString();

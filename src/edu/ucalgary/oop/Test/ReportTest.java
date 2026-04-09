@@ -65,12 +65,14 @@ public class ReportTest {
 
     @Test
     public void testTotalCalls() {
+        //test that getTotalCalls returns expected values
         assertEquals("total calls should match",
                 expectedTotal, report.getTotalCalls());
     }
 
     @Test
     public void testPendingCalls() {
+        //test that getPendingCount() and getPendingCalls() return expected counts and sizes
         assertEquals("pending count should match",
                 expectedPending, report.getPendingCount());
 
@@ -80,6 +82,7 @@ public class ReportTest {
 
     @Test
     public void testResolvedCalls() {
+        //test that getResolvedCount() and getResolvedCalls return expected counts
         assertEquals("resolved count should match",
                 expectedResolved, report.getResolvedCount());
 
@@ -89,6 +92,7 @@ public class ReportTest {
 
     @Test
     public void testEscalatedCalls() {
+        //test that getEscalatedCount() and getEscalatedCalls() return expected counts
         assertEquals("escalated count should match",
                 expectedEscalated, report.getEscalatedCount());
 
@@ -98,12 +102,14 @@ public class ReportTest {
 
     @Test
     public void testDate() {
+        //test that getDate() returns expected value
         assertEquals("report date should match",
                 expectedDate, report.getDate());
     }
 
     @Test
     public void testFormatReport() {
+        //test that formatReport() returns correct format
         String output = report.formatReport();
 
         assertTrue("should contain correct date",

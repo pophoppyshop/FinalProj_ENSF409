@@ -18,7 +18,7 @@ public class CallerTest{
     public void setUp(){
 
         caller = new Caller(1, "111-1111-1111", true, LocalDate.now(), expectedNotes);
-
+        //set up expected values to test files with
         expectedID = 1;
         expectedPhoneNumber = "111-1111-1111";
         expectedIsAnonymous = true;
@@ -28,18 +28,21 @@ public class CallerTest{
 
     @Test
     public void testGetCallerID(){
+        //confirm that GetCallerID() returns expected value
         assertEquals("Caller should be given unique ID at first call", expectedID, 
             caller.getCallerID());
     }
 
     @Test
     public void testGetPhoneNumber(){
+        //confirm that GetPhoneNumber() returns expected value
         assertEquals("Phone number should be set with constructor", expectedPhoneNumber,
             caller.getPhoneNumber());
     }
 
     @Test
     public void testToString(){
+        //confirm that output strings match
         String expectedString = "\tPhone number: 111-1111-1111\n\tIs anonymous?: Yes\n\tLast contact date2026-04-08\n\tNotes: null";
         String callerString = caller.toString();
         assertEquals("toString should return caller information", expectedString, callerString);

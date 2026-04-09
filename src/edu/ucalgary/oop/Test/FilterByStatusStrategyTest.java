@@ -50,6 +50,7 @@ public class FilterByStatusStrategyTest {
 
     @Test
     public void testFilterMatchingStatus() {
+        //test that executing strategy returns expected count
         List<CrisisCall> result = strategy.execute(calls);
 
         assertEquals("should return only PENDING calls",
@@ -58,6 +59,7 @@ public class FilterByStatusStrategyTest {
 
     @Test
     public void testNoMatches() {
+        //filter for a status that does not exist and confirm that no matches are made
         strategy = new FilterByStatusStrategy("ESCALATED");
 
         List<CrisisCall> result = strategy.execute(calls);
@@ -68,6 +70,7 @@ public class FilterByStatusStrategyTest {
 
     @Test
     public void testCaseInsensitive() {
+        //test that filter is insensitice to case
         strategy = new FilterByStatusStrategy("pending");
 
         List<CrisisCall> result = strategy.execute(calls);
@@ -78,6 +81,7 @@ public class FilterByStatusStrategyTest {
 
     @Test
     public void testEmptyList() {
+        //test that an empty list is returned when executing an empty list
         calls = new ArrayList<>();
 
         List<CrisisCall> result = strategy.execute(calls);
