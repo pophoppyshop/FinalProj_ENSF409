@@ -3,7 +3,7 @@ package edu.ucalgary.oop;
 import java.util.*;
 
 public class FilterBySpecialtyStrategy implements Strategy<List<Volunteer>, List<Volunteer>> {
-	String specialtyName = "";
+	private String specialtyName = "";
 	
 	public FilterBySpecialtyStrategy (String specialty) {
 		specialtyName = specialty;
