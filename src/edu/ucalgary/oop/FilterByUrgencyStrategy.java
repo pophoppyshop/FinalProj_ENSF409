@@ -3,7 +3,7 @@ package edu.ucalgary.oop;
 import java.util.*;
 
 public class FilterByUrgencyStrategy implements Strategy<List<CrisisCall>, List<CrisisCall>>{
-	int urgency;
+	private int urgency;
 	
 	public FilterByUrgencyStrategy(int urgency) {
 		this.urgency = urgency;
