@@ -38,7 +38,7 @@ public class VolunteerManager implements Observer{
 			}
 		}
 		
-		throw new IllegalArgumentException("Call ID does not exist in call list.");
+		throw new IllegalArgumentException("Volunteer ID does not exist.");
 	}
 	
 	public static void printVolunteers(List<Volunteer> list){
@@ -59,6 +59,23 @@ public class VolunteerManager implements Observer{
 		return strategy.execute(volunteers);
 	}
 
+	public static void updateAvailability(int volunteerID, boolean availability) {
+		try {
+			Connection conn = DatabaseManager.getConnection();
+			String sql = "UPDATE Volunteers SET IsAvailable=?, LastAvailableChange=? WHERE VolunteerID=?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+
+			stmt.setBoolean(1, availability);
+			stmt.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+			stmt.setInt(3, volunteerID);
+
+			stmt.executeUpdate();
+			stmt.close()
+		} catch (SQLException e){
+			System.out.println("Error updating availability: " + e.getMessage());
+		}
+	}
+	
 	@Override
 	public void update() {
 		System.out.println("Updating volunteers from database..."); 
