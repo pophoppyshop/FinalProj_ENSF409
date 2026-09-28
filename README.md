@@ -19,3 +19,6 @@ entered.\
 <br>
 **Generate Report:** This selection allows the administrator to generate a comprehensive report of the daily calls.\
 The program will pull from the database every three interactions.
+
+### UML Diagram
+[Link to diagram](https://drive.google.com/file/d/1m1g_FLPEqHU_t2sCLbo29xanC6-CawEu/view?usp=sharing)
