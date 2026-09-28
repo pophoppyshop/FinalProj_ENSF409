@@ -22,3 +22,4 @@ The program will pull from the database every three interactions.
 
 ### UML Diagram
 ![Uml Diagram](ENSF_409_UML.drawio.svg)
+This program applied common design patterns, including a singleton, strategies, observers, and model-viewer-controller.
