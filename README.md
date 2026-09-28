@@ -21,5 +21,4 @@ entered.\
 The program will pull from the database every three interactions.
 
 ### UML Diagram
-<img width="1093" height="1088" alt="ENSF 409 - UML drawio" src="https://github.com/user-attachments/assets/bd7b81fe-0d82-4360-9756-9afc4c313253" />
-
+![Uml Diagram](ENSF_409_UML.drawio.svg)
